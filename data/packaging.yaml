@@ -1,0 +1,332 @@
+objects:
+- name: MaterialContainer
+  in_opt: true
+  in_opt_db: true
+  description:
+  - Type of a spool/resin container
+  - 'For example: Prusament 1kg spool'
+
+  fields:
+  - name: uuid
+    type: UUID
+    primary_key: true
+    required_in_opt_db: true
+    description:
+    - Unique identifier of the product.
+    - If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid).
+
+  - name: class
+    type: MaterialClass
+    example: FFF
+    description: FFF/SLA
+    required_in_opt_db: true
+    in_slx_workflow_db: false
+
+  - name: brand
+    type: Brand
+    example: Prusament
+
+  - name: brand_specific_id
+    type: string
+    description: Unique identifier of the container within the brand
+
+  - name: name
+    type: string
+    required_in_opt_db: true
+
+  - name: volumetric_capacity
+    type: number
+    unit: "ml (cm\xB3)"
+    description:
+    - Maximum amount of material the container can hold.
+    - The volumetric unit has been selected so that the property would work with both SLA and FFF.
+
+  - name: empty_weight
+    type: number
+    unit: g
+    description:
+    - Weight of the empty container.
+    - The aim is to be able to put the container on a scale, subtract this number and be able to estimate the amount of material inside.
+
+- name: FFFMaterialContainer
+  inherits: MaterialContainer
+  in_opt: true
+  in_opt_db: true
+  description:
+  - Extension of `MaterialContainer` for FFF materials (filaments).
+  - Filament spools are expected to be hollow cylinders with sides.
+
+  fields:
+  - name: hole_diameter
+    type: number
+    unit: mm
+    description:
+    - Diameter of the hole in the middle of the spool.
+    - Determines the maximum diameter of the spool holder rod.
+
+  - name: inner_diameter
+    type: number
+    unit: mm
+    description: Inner diameter of the spool = minimum radius the fiament is rolled
+
+  - name: outer_diameter
+    type: number
+    unit: mm
+    description:
+    - Outer diameter of the spool.
+    - Determines what spool holders/dryboxes the spool can fit into.
+
+  - name: width
+    type: number
+    unit: mm
+    description:
+    - Width of the spool (= height of the cylinder)
+    - Determines what spool holders/dryboxes the spool can fit into.
+
+- name: SLAMaterialContainer
+  inherits: MaterialContainer
+  in_opt: true
+  in_opt_db: true
+  description:
+  - Container for an SLA resin. Assumed to be a bottle with a threaded cap at the top.
+
+  fields:
+  - name: width
+    type: number
+    unit: mm
+    description: (Maximum) size of the container in one of the horizontal dimensions
+
+  - name: length
+    type: number
+    unit: mm
+    description: (Maximum) size of the container in the other horizontal dimension
+
+  - name: height
+    type: number
+    unit: mm
+    description: (Maximum) size of the container in the vertical dimension.
+
+  - name: connector
+    type: SLAMaterialContainerConnector
+    example: 20mm thread
+    description: See SLAMaterialContainerConnector
+
+- name: SLAMaterialContainerConnector
+  in_opt_db: true
+  description:
+  - Describes how the container can be connected to machines for automatic resin deposition.
+  - Typically, the container has a threaded cap on the top that can be used to screw on a connector with an extraction tube.
+
+  fields:
+  - name: uuid
+    type: UUID
+    primary_key: true
+    required_in_opt_db: true
+
+  - name: name
+    type: string
+    required_in_opt_db: true
+
+- name: MaterialPackage
+  in_opt: true
+  in_opt_db: true
+  description:
+  - Represents a filament spool/resin that is being sold in bulk
+  - 'For example: 1kg Prusament PLA Galaxy Black'
+  - https://www.prusa3d.com/product/prusament-pla-prusa-galaxy-black-2kg/ is a `MaterialPackage`.
+  - The specific box that comes to your door, that is `MaterialPackageInstance`.
+  - Brand of the package is considered to be same as the brand of the material (`Material::brand`)
+
+  fields:
+  - name: uuid
+    type: UUID
+    primary_key: true
+    required_in_opt_db: true
+    description:
+    - Unique identifier of the product.
+    - If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid).
+
+  - name: class
+    type: MaterialClass
+    example: FFF
+    description: FFF/SLA
+
+  - name: brand_specific_id
+    type: string
+    description: Unique identifier of the product within the brand
+
+  - name: gtin
+    type: number
+    required_in_opt_db: true
+    description:
+    - '[Global Trade Item Number](https://en.wikipedia.org/wiki/Global_Trade_Item_Number) of the product - typically a ''barcode'' product ID'
+    - This is a more general ID than covers EAN, ISBN and other.
+
+  - name: container
+    type: MaterialContainer
+    example: Prusament 1kg spool
+
+  - name: material
+    required_in_opt_db: true
+    type: Material
+    example: Prusament PLA Galaxy Black
+
+  - name: url
+    type: string
+    example: https://www.prusa3d.com/product/prusament-pla-jet-black-1kg/
+    description:
+    - URL of the product page
+    - If not specified explicitly, can be also derived using `Brand::material_package_url_template`
+
+  - name: nominal_netto_full_weight
+    required_in_opt_db: true
+    type: number
+    unit: g
+    example: 1000
+    description:
+    - Nominal/advertised weight of the full package of the material, excluding the weight of the container
+    - The actual netto weight of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_netto_full_weight`
+
+- name: FFFMaterialPackage
+  inherits: MaterialPackage
+  in_opt: true
+  in_opt_db: true
+  description: Extension of `MaterialPackage` for FFF materials (filaments).
+  fields:
+  - name: filament_diameter
+    type: number
+    unit: "\xB5m"
+    example: 1750
+    required_in_opt_db: true
+
+  - name: filament_diameter_tolerance
+    type: number
+    unit: "\xB5m"
+
+  - name: nominal_full_length
+    required_in_opt_db: true
+    type: number
+    unit: mm
+    example: 350000
+    description:
+    - Nominal/advertised filament length of the full spool.
+    - The actual length of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_full_length`
+
+- name: SLAMaterialPackage
+  inherits: MaterialPackage
+  in_opt: true
+  in_opt_db: true
+  fields: []
+
+- name: MaterialPackageInstance
+  in_opt: true
+  description: A single, unique physical instance of the `MaterialPackage` product.
+  fields:
+  - name: uuid
+    type: UUID
+    primary_key: true
+    description:
+    - Universally unique identifier of the instance (across all brands and spacetime).
+    - If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid).
+
+  - name: class
+    type: MaterialClass
+    example: FFF
+    description: FFF/SLA
+
+  - name: package
+    type: MaterialPackage
+    example: Prusament 1kg PLA Galaxy Black
+
+  - name: brand_specific_id
+    type: string
+    description: Unique identifier of the instance within the brand
+
+  - name: url
+    type: string
+    example: https://prusament.com/spool/sample/
+    description:
+    - URL of the detail page of the specific package instance
+    - If not specified explicitly, can be also derived using `Brand::material_package_instance_url_template`
+
+  - name: batch_id
+    type: int
+    description:
+    - Batches can have slightly different properties.
+    - This parameter can be used to identify instances from the same batch.
+
+  - name: manufactured_date
+    type: timestamp
+
+  - name: country_of_origin
+    type: Country
+    description: Country the MaterialPackageInstance was manufactured in
+
+  - name: expiration_date
+    type: timestamp
+
+  - name: signature
+    type: Signature
+    description:
+    - Information about material package instance can be signed for genuinity verification.
+
+  - name: dynamic_data
+    type: MaterialPackageDynamicData
+    description: Non-signed part of the information, contains tracking data for user convenience.
+
+  - name: actual_netto_full_weight
+    required_in_opt_db: true
+    type: number
+    unit: g
+    example: 1012
+    description:
+    - Actual weight of the full package of the material of this specific package instance, excluding the weight of the container.
+    - Can slightly differ from `MaterialPackage::nominal_netto_full_weight`.
+
+- name: FFFMaterialPackageInstance
+  inherits: MaterialPackageInstance
+  in_opt: true
+  description: FFF-specific extension of MaterialPackageInstance
+  fields:
+  - name: actual_full_length
+    required_in_opt_db: true
+    type: number
+    unit: mm
+    example: 351000
+    description:
+    - Actual filament length of the full spool.
+    - Can slightly differ from `FFFMaterialPackage::nominal_full_length`
+
+- name: MaterialPackageDynamicData
+  in_opt: true
+  description:
+  - Structure containing dynamic information about package instance.
+  - Information here can be overriden by the user.
+
+  fields:
+  - name: class
+    type: MaterialClass
+    example: FFF
+    description: FFF/SLA
+    in_slx_connect_comm: false
+
+  - name: consumed_weight
+    type: number
+    unit: g
+    in_slx_connect_comm: false
+    description:
+    - Amount of material consumed/used.
+    - '`remaining_weight = actual_netto_full_weight - consumed_weight`'
+    - 'FFF printers typically track extruded distance, not weight. This extruded sitance needs to be mapped onto weight as:'
+    - '`consumed_weight = extruded_length / actual_full_length * actual_netto_full_weight` (preferred way, with fallbacks to nominal values)'
+    - '`consumed_weight = extruded_length * PI * (filament_diameter / 2)^2 * density / 1000` (backup way)'
+
+- name: SLAMaterialPackageDynamicData
+  inherits: MaterialPackageDynamicData
+  in_opt: true
+  fields:
+  - name: last_stir_time
+    type: timestamp
+    description:
+    - Timestamp when the resin was last stirred.
+    - Resins that have not been used for some time need to be stirred before printing.

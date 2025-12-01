@@ -1,0 +1,89 @@
+objects:
+- name: Brand
+  in_opt_db: true
+  description:
+  - Manufacturer/brand of filament/spools/resin/...
+
+  fields:
+  - name: uuid
+    type: UUID
+    primary_key: true
+    required_in_opt_db: true
+    description:
+    - Unique identifier of the brand.
+    - If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid).
+
+  - name: name
+    type: string
+    example: Prusament
+    required_in_opt_db: true
+
+  - name: countries_of_origin
+    type: list(Country)
+    example: CZ, US
+    description:
+    - List of all countries where the brand has manufacturing facilities.
+
+  - name: keywords
+    type: set(string)
+    example: Prusa, Prusa3D
+    description: Additional strings the brand can be matched against during searches.
+
+  - name: material_url_template
+    type: string
+    example: https://prusament.com/materials/{id}/
+    description:
+    - '`{id}` gets replaced by Material::brand_specific_id'
+    - '`{uuid}` gets replaced by Material::uuid'
+
+  - name: material_package_url_template
+    type: string
+    example: https://www.prusa3d.com/cs/produkt/{id}/
+    description:
+    - '`{id}` gets replaced by MaterialPackage::brand_specific_id'
+    - '`{uuid}` gets replaced by MaterialPackage::uuid'
+
+  - name: material_package_instance_url_template
+    type: string
+    example: https://prusament.com/spool/?spoolId={uuid}
+    description:
+    - '`{id}` gets replaced by MaterialPackageInstance::brand_specific_id'
+    - '`{uuid}` gets replaced by MaterialPackageInstance::uuid'
+
+  - name: link_patterns
+    type: set(BrandLinkPattern)
+
+- name: BrandLinkPatternType
+  enum_file: brand_link_pattern_types.yaml
+  in_opt_db: true
+  description: Utility enum for BrandLinkPattern
+  fields: []
+
+- name: BrandLinkPattern
+  in_opt_db: true
+  description:
+  - Pattern for detecting brand-specific links and extracting information from it
+
+  fields:
+  - name: brand
+    type: Brand
+
+  - name: type
+    type: BrandLinkPatternType
+    example: '`material`'
+    description:
+    - Type of object the link is referring to
+
+  - name: pattern
+    type: string
+    example: '`https://prusament\.com/spool/\?spoolId=(?<MaterialPackageInstance_uuid>\d+)/`'
+    description:
+    - Regex pattern for matching the link. The regex is required to use named capturing groups, where the group name is the captured property name in the form of `object_property`
+
+- name: Country
+  in_opt_db: true
+  fields:
+  - name: code
+    type: string
+    primary_key: true
+    description: Two-letter country code, according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)

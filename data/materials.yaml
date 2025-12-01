@@ -1,0 +1,447 @@
+objects:
+- name: MaterialType
+  enum_file: material_types.yaml
+  description:
+  - Entity grouping Materials based on the same core chemical compound.
+  - 'For example: PLA, PETG; PETG-CF would still be considered of the PETG MaterialType'
+  - MaterialType is a tightly controlled enum, all new MaterialTypes HAVE to be added to the Architecture first.
+
+  in_opt_db: true
+  fields:
+  - name: class
+    type: MaterialClass
+    primary_key: true
+    example: FFF
+    description: FFF/SLA
+    required_in_opt_db: true
+    in_slx_workflow_db: false
+
+  - name: abbreviation
+    primary_key: true
+    type: string
+    example: PETG
+    description:
+    - Short abbreviation of the material type name, no longer than 7 characters.
+    - Used for example in printer footers (to show what material is loaded).
+    - Also possibly used for checking filament type match between gcode and printer.
+    - The (class, abbreviation) pair forms an unique key.
+
+    required_in_opt_db: true
+
+  - name: id
+    type: int
+    description: Unique numerical identifier, alternative to the class+abbreviation pair
+
+  - name: name
+    type: string
+    example: Polyethylene Terephtalate Glycol
+    required_in_opt_db: true
+
+  - name: default_properties
+    type: MaterialProperties
+
+- name: Material
+  in_opt_db: true
+  in_opt: true
+  description:
+  - Specific material of specific color and properties, manufactured by a specific brand.
+  - 'For example: "Prusament PLA Prusa Galaxy Black"'
+
+  fields:
+  - name: uuid
+    type: UUID
+    primary_key: true
+    required_in_opt_db: true
+    description:
+    - If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid).
+
+  - name: brand
+    type: Brand
+    example: Prusament
+    required_in_opt_db: true
+
+  - name: brand_specific_id
+    type: string
+    description: An identifier the brand uses to indentify this specific material
+
+  - name: class
+    type: MaterialClass
+    example: FFF
+    description: FFF/SLA
+    required_in_opt_db: true
+    in_slx_workflow_db: false
+
+  - name: type
+    type: MaterialType
+    example: PETG
+    description: Type of the material. Can be null if the Material is not of any MaterialType in the list.
+    in_slx_workflow_db: false
+
+  - name: name
+    type: string
+    example: PETG Carbon Fiber Black
+    required_in_opt_db: true
+    description: Name of the material itself, without the brand name
+
+  - name: abbreviation
+    type: string
+    example: PETGCF
+    description:
+    - Short abbreviation of the material type name, no longer than 7 characters.
+    - Used for example in printer footers (to show what material is loaded).
+    - Also possibly used for checking filament type match between gcode and printer.
+    - Inherited from `MaterialType` if not present.
+
+    required_in_opt_db: true
+
+  - name: url
+    type: string
+    example: https://prusament.com/materials/pla/
+    description:
+    - URL of the info/product page of the material (not material package!)
+    - If not specified explicitly, can be also derived using `Brand::material_url_template`
+
+  - name: properties
+    type: MaterialProperties
+
+  - name: primary_color
+    type: MaterialColor
+    description:
+    - Primary color of the material, if it has ones.
+    - If the material contains multiple colours of same importance (for example coextruded or rainbow filaments), it makes sense to leave this field null and work only with secondary colors.
+    - Important! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value
+
+  - name: secondary_colors
+    type: set(MaterialColor)
+    description:
+    - Additonal colors of the material to the primary colors.
+    - The material doesn't have to have a primary colos, in which case all the colors are on the same level of importance as secondary colors.
+    - Some systems (for example printers) can only work with primary colors and ignore this field.
+    - Important! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value
+
+  - name: tags
+    type: set(MaterialTag)
+    example: glitter, carbon_fiber
+
+  - name: transmission_distance
+    type: number
+    example: 6.6
+    min: 0
+    max: 100
+    unit: HueForge TD
+    description:
+    - Transmission Distance is a number representing material opacity. Value ranges from 0.1 (least transparent/most opaque) to 100 (most transparent/least opaque)
+    - See [Prusa TD values](https://help.prusa3d.com/article/hueforge-filament-transparency-values-and-hexcodes_762314) or [HueForge website](https://shop.thehueforge.com/blogs/news/what-is-hueforge).
+
+  - name: refractive_index
+    type: number
+    example: 1.585
+    min: 1
+    max: 4
+    description:
+    - Physical pefractive index/refraction index/index of refraction/IOR, for visualisation purposes.
+    - See [Wikipedia](https://en.wikipedia.org/wiki/Refractive_index), [Database for various materials](https://physicallybased.info/)
+    - Expected value range [1,3], 3-decimal precision
+
+  - name: certifications
+    type: set(MaterialCertification)
+    description: List of certifications the material has obtained
+    in_slx_workflow_db: false
+
+  - name: photos
+    type: set(MaterialPhoto)
+    description: Photos of the material
+    in_slx_workflow_db: false
+
+- name: MaterialTag
+  in_opt_db: true
+  in_opt: true
+  enum_file: material_tags.yaml
+  description:
+  - Property of a material, expressable in a simple present/not present format.
+  - 'For example: Glitter, carbon-fiber, ...'
+  - MaterialTags are an enum defined by the architecture. Because of the enumerated-ID nature, any new tags have to first be added to the architecture and only then to the MDB/NFC.
+
+  fields:
+  - name: name
+    type: string
+    example: glitter
+    description: Unique string identifier in the `snake_case` format
+    required_in_opt_db: true
+    primary_key: true
+
+  - name: id
+    type: int
+    required_in_opt_db: true
+    description: Unique numerical identifier, alternative to `name` (which is also unique)
+
+  - name: display_name
+    type: string
+    example: Glitter
+    description: Something to show to the users (in contrast to `name`, which is a snake_case identifier)
+
+  - name: category
+    type: MaterialTagCategory
+    description: Category of the tag (for visual organization purposes)
+
+  - name: implies
+    type: set(MaterialTag)
+    description: Other tags that MUST be present if the current tag is present.
+
+  - name: hints
+    type: set(MaterialTag)
+    description:
+    - Other tags that are likely to be present if the current tag is present, but not required.
+    - Interfaces can possibly suggest these tags when entering new data to the system.
+
+- name: MaterialTagCategory
+  enum_file: material_tag_categories.yaml
+  in_opt_db: true
+  description:
+  - Means for visual organization of MaterialTags
+  - This is an enum defined by the architecture. It only serves an utility purpose and can be changed at any time.
+
+  fields:
+  - name: name
+    type: string
+    primary_key: true
+    description: Unique string identifier in the `snake_case` format
+
+  - name: display_name
+    type: string
+    description: Something to show to the users
+
+  - name: emoji
+    type: string
+    description: Something more to show to the users if one is feeling funky
+
+- name: MaterialPhoto
+  in_opt_db: true
+  enum_file: material_photo_types.yaml
+  description:
+  - It has been decided that the material database will contain links to material photos - this is an entity modelling it.
+
+  fields:
+  - name: url
+    type: string
+    example: https://prusament.com/wp-content/uploads/360_degrees/pla/galaxy_black/08.jpg
+    required_in_opt_db: true
+    description: URL to the photo
+
+  - name: type
+    type: MaterialPhotoType
+    example: '`print`'
+    required_in_opt_db: true
+    description: Information about what actually is on the photo
+
+- name: MaterialProperties
+  in_opt_db: true
+  in_opt: true
+  description:
+  - Properties for printing the material.
+  - The properties can be defined on multiple levels (`MaterialType`, `Material`), more specific levels override properties of more generic ones.
+  - Different material classes have different property fields, those are split into subtypes of `MaterialProperties`.
+
+  fields:
+  - name: density
+    type: number
+    min: 0.01
+    max: 100
+    unit: "g/cm\xB3 (1 g/cm\xB3 = 0.001 g/mm\xB3 = 1000 kg/m\xB3)"
+
+  - name: hardness_shore_a
+    type: number
+    description: Hardness of the material on the Shore A scale
+
+  - name: hardness_shore_d
+    type: number
+    description: Hardness of the material on the Shore D scale
+
+- name: FFFMaterialProperties
+  inherits: MaterialProperties
+  in_opt_db: true
+  in_opt: true
+  description:
+  - Extension of `MaterialProperties` for FFF materials (filaments).
+
+  fields:
+  - name: min_print_temperature
+    type: number
+    unit: "\xB0C"
+    required_in_opt_db: true
+    min: -273
+    max: 500
+    example: 205
+    description: Minimum recommended nozzle temperature for printing
+
+  - name: max_print_temperature
+    type: number
+    unit: "\xB0C"
+    required_in_opt_db: true
+    min: -273
+    max: 500
+    example: 225
+    description: Maximum recommended nozzle temperature for printing
+
+  - name: preheat_temperature
+    type: number
+    unit: "\xB0C"
+    description:
+    - Nozzle temperature for preheat/MBL/nozzle cleaning
+    - The temperature should be high enough so that the material is soft and can be easily cleaned off the nozzle,
+    - but low enough so that the filament doesn't ooze.
+
+  - name: min_bed_temperature
+    type: number
+    unit: "\xB0C"
+    required_in_opt_db: true
+    min: -273
+    max: 500
+    example: 40
+    description: Minimum recommended heatbed temperature for printing
+
+  - name: max_bed_temperature
+    type: number
+    unit: "\xB0C"
+    required_in_opt_db: true
+    min: -273
+    max: 500
+    example: 60
+    description: Minimum recommended heatbed temperature for printing
+
+  - name: heatbreak_temperature
+    type: number
+    unit: "\xB0C"
+    min: -273
+    max: 500
+    description:
+    - Temperature the heatbreak should be cooled to.
+
+  - name: chamber_temperature
+    type: number
+    unit: "\xB0C"
+    min: -273
+    max: 500
+    description: Chamber temperature the printer should ideally keep during the print
+
+  - name: min_chamber_temperature
+    type: number
+    unit: "\xB0C"
+    min: -273
+    max: 500
+    description:
+    - Minimum chamber temperature that is required for printing of this material.
+    - The printer should wait to reach this temperature before starting the print.
+
+  - name: max_chamber_temperature
+    type: number
+    unit: "\xB0C"
+    min: -273
+    max: 500
+    description:
+    - Maximum chamber temperature that is required for printing of this material.
+    - The printer should wait to cool to this temperature before starting the print.
+
+  - name: drying_temperature
+    type: number
+    unit: "\xB0C"
+    min: -273
+    max: 500
+    description: Recommended temperature for drying the filament
+
+  - name: drying_time
+    type: number
+    unit: min
+    min: 0
+    max: 500000
+    description: Recommended drying time (on `drying_temperature`) before using the material
+
+  - name: min_nozzle_diameter
+    type: number
+    unit: "\xB5m"
+    min: 200
+    max: 2000
+    description:
+    - Minimum recommended nozzle diameter for printing the material.
+    - Some materials can contain added particles that would clog the nozzle if the diameter was too small.
+
+  - name: print_sheet_compatibility_list
+    type: PrintSheetCompatibilityRecord[PrintSheetType]
+    in_opt_db: false
+    description: Information about compatible & incompatible print beds.
+
+- name: SLAMaterialProperties
+  inherits: MaterialProperties
+  in_opt_db: true
+  in_opt: true
+  fields:
+  - name: cure_wavelength
+    type: number
+    unit: nm
+    example: 405
+    description:
+    - Wavelength of the light the material has been designed to be cured with
+
+  - name: viscosity_18c
+    type: number
+    unit: "mPa\xB7s"
+    min: 0
+    description: "Viscosity of the material at 18 \xB0C"
+
+  - name: viscosity_25c
+    type: number
+    unit: "mPa\xB7s"
+    example: 80
+    min: 0
+    description: "Viscosity of the material at 25 \xB0C"
+
+  - name: viscosity_40c
+    type: number
+    unit: "mPa\xB7s"
+    min: 0
+    description: "Viscosity of the material at 40 \xB0C"
+
+  - name: viscosity_60c
+    type: number
+    unit: "mPa\xB7s"
+    min: 0
+    description: "Viscosity of the material at 60 \xB0C"
+
+- name: MaterialCertification
+  in_opt_db: true
+  in_opt: true
+  enum_file: material_certifications.yaml
+  description:
+  - Certification a material can obtain.
+  - The entity is an enum defined by the architecture. To get IDs assigned, items MUST be defined in the architecture. Otherwise, the entities MUST exist without `id` and `name` defined.
+
+  fields:
+  - name: id
+    type: int
+    primary_key: true
+    description: Unique numerical identifier
+
+  - name: name
+    type: string
+    description: Programming-style `snake_case` identifier
+
+  - name: display_name
+    type: string
+    description: User-friendly name of the certification
+
+- name: MaterialColor
+  in_opt_db: true
+  description:
+  - Color (or one of the colors) of a Material
+  - Important! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value
+
+  fields:
+  - name: color_rgba
+    type: color
+    unit: '#RRGGBB(AA)'
+    example: '#ff0000'
+    required_in_opt_db: true
+    opt_db_regex: ^#[a-f0-9]{6}([a-f0-9]{2})?$
+    description:
+    - Color of a material in the RGB format, intended for GUI purposes.
+    - The alpha channel can be left out, at which point the color is considered fully opaque.

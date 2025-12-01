@@ -1,0 +1,15 @@
+- key: 0
+  name: unspecified
+  description: Other photo not strictly falling into one of the other categories, or simply unspecified
+
+- key: 1
+  name: print
+  description: Photo of a print from the material, for example https://www.prusa3d.com/cdn-cgi/image/width=1024,format=auto,quality=85/content/images/product/5443.jpg
+
+- key: 2
+  name: package
+  description: Photo of a package of the material. May include print samples as well, for example https://www.prusa3d.com/content/images/product/4691.jpg
+
+- key: 3
+  name: filament_colors_sample
+  description: Standardized sample per Filament Colors, for example https://filamentcolors.xyz/media/siddament-translucent-blood-red-petg-3715-front_uwvTNji.jpg

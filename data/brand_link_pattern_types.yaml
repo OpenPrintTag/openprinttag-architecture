@@ -1,0 +1,11 @@
+- key: 0
+  name: brand
+
+- key: 1
+  name: material
+
+- key: 2
+  name: material_package
+
+- key: 3
+  name: material_package_instance
