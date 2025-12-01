@@ -31,6 +31,6 @@ jobs:
           sh generate_schemas.sh
 
           if [ -n "$(git status --porcelain)" ]; then
-            echo "::error:: Uncommited schema changes. Please run 'sh generate_schemas.sh' locally and commit the changes."
+            echo "::error:: Uncommited schema changesa. Please run 'sh generate_schemas.sh' locally and commit the changes."
             exit 1
           fi
