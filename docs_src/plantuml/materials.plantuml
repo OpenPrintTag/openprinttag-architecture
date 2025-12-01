@@ -1,0 +1,49 @@
+@startuml
+{{ plantuml_common }}
+
+package Brands {
+    {{ plantuml_entity_ref("brands", "Brand") }}
+}
+
+package Packaging {
+    {{ plantuml_entity_ref("packaging", "MaterialPackage") }}
+}
+
+PrintSheetType -l[hidden]- MaterialSlicingProfile
+
+{{ plantuml_entity("MaterialProperties") }}
+MaterialProperties .u.. MaterialSlicingProfile
+
+{{ plantuml_entity("FFFMaterialProperties") }}
+
+{{ plantuml_entity("SLAMaterialProperties") }}
+
+{{ plantuml_entity("PrintSheetCompatibilityRecord") }}
+PrintSheetCompatibilityRecord -d- FFFMaterialProperties
+
+{{ plantuml_entity("MaterialType") }}
+MaterialType -r- MaterialProperties
+
+{{ plantuml_entity("MaterialTagCategory") }}
+
+{{ plantuml_entity("MaterialTag") }}
+MaterialTag -d- MaterialTagCategory
+
+{{ plantuml_entity("MaterialCertification") }}
+
+{{ plantuml_entity("MaterialPhoto") }}
+
+{{ plantuml_entity("Material") }}
+Material -u-- Brand
+Material -u- MaterialType
+Material -r- MaterialProperties
+Material -- MaterialTag
+Material -- MaterialCertification
+Material -- MaterialPhoto
+
+Material .u.. MaterialPackage
+
+{{ plantuml_entity("MaterialColor") }}
+MaterialColor .r. Material
+
+@enduml

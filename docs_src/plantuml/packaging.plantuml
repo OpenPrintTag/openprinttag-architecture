@@ -1,0 +1,52 @@
+@startuml
+{{ plantuml_common }}
+
+package Brands {
+	{{ plantuml_entity_ref("brands", "Brand") }}
+	{{ plantuml_entity_ref("brands", "Country") }}
+}
+
+package Materials {
+	{{ plantuml_entity_ref("materials", "Material") }}
+}
+
+Brands -l[hidden]- Materials
+
+{{ plantuml_entity("SLAMaterialContainerConnector") }}
+
+{{ plantuml_entity("MaterialContainer") }}
+MaterialContainer -u- Brand
+
+{{ plantuml_entity("FFFMaterialContainer", true) }}
+FFFMaterialContainer -l-|> MaterialContainer
+
+{{ plantuml_entity("SLAMaterialContainer", true) }}
+SLAMaterialContainer -l-|> MaterialContainer
+SLAMaterialContainer -l[hidden]- FFFMaterialContainer
+SLAMaterialContainer -u- SLAMaterialContainerConnector
+
+{{ plantuml_entity("MaterialPackage") }}
+MaterialPackage -- Material
+MaterialPackage -u- MaterialContainer
+
+{{ plantuml_entity("FFFMaterialPackage", true) }}
+FFFMaterialPackage -l-|> MaterialPackage
+
+{{ plantuml_entity("SLAMaterialPackage", true) }}
+SLAMaterialPackage -l-|> MaterialPackage
+SLAMaterialPackage -l[hidden]- FFFMaterialPackage
+
+{{ plantuml_entity("MaterialPackageDynamicData") }}
+
+{{ plantuml_entity("SLAMaterialPackageDynamicData", true) }}
+SLAMaterialPackageDynamicData -l-|> MaterialPackageDynamicData
+
+{{ plantuml_entity("MaterialPackageInstance") }}
+MaterialPackageInstance -u- MaterialPackage
+MaterialPackageInstance -- MaterialPackageDynamicData
+MaterialPackageInstance -u--- Country
+
+{{ plantuml_entity("FFFMaterialPackageInstance", true) }}
+FFFMaterialPackageInstance -l-|> MaterialPackageInstance
+
+@enduml

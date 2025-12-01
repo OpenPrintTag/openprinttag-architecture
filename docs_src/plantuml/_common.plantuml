@@ -1,0 +1,10 @@
+skinparam linetype ortho
+
+!$in_opt_db = "<color:DarkBlue>DB</color>"
+skinparam ClassBackgroundColor<<DB>> LightCyan
+
+!$in_opt = "<color:DarkGreen>OPT</color>"
+skinparam ClassBorderColor<<OPT>> DarkGreen
+skinparam ClassBorderThickness<<OPT>> 2
+
+{{projects_common()}}

@@ -1,0 +1,27 @@
+@startuml
+{{ plantuml_common }}
+
+package Materials {
+	{{ plantuml_entity_ref("materials", "Material") }}
+}
+
+package Packaging {
+	{{ plantuml_entity_ref("packaging", "MaterialContainer") }}
+	{{ plantuml_entity_ref("packaging", "MaterialPackage") }}
+}
+
+{{ plantuml_entity("Brand") }}
+Brand ..u. Material
+Brand ..u. MaterialContainer
+Brand ..u. MaterialPackage
+
+{{plantuml_entity("BrandLinkPatternType")}}
+
+{{ plantuml_entity("BrandLinkPattern") }}
+BrandLinkPattern -u- Brand
+BrandLinkPattern -u- BrandLinkPatternType
+
+{{ plantuml_entity("Country") }}
+Country -d- Brand
+
+@enduml
