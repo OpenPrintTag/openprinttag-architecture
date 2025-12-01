@@ -1,0 +1,70 @@
+{
+  "$id": "/material_package",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "MaterialPackage",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of the product.\nIf not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
+    },
+    "class": {
+      "type": "string",
+      "enum": [
+        "FFF",
+        "SLA",
+        "FFF",
+        "SLA"
+      ],
+      "description": "Example: FFF\n\nFFF/SLA"
+    },
+    "brand_specific_id": {
+      "type": "string",
+      "description": "Unique identifier of the product within the brand"
+    },
+    "gtin": {
+      "type": "number",
+      "description": "[Global Trade Item Number](https://en.wikipedia.org/wiki/Global_Trade_Item_Number) of the product - typically a 'barcode' product ID\nThis is a more general ID than covers EAN, ISBN and other."
+    },
+    "container": {
+      "$ref": "material_container.schema.json"
+    },
+    "material": {
+      "$ref": "material.schema.json"
+    },
+    "url": {
+      "type": "string",
+      "description": "Example: https://www.prusa3d.com/product/prusament-pla-jet-black-1kg/\n\nURL of the product page\nIf not specified explicitly, can be also derived using `Brand::material_package_url_template`"
+    },
+    "nominal_netto_full_weight": {
+      "type": "number",
+      "description": "Unit: g\nExample: 1000\n\nNominal/advertised weight of the full package of the material, excluding the weight of the container\nThe actual netto weight of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_netto_full_weight`"
+    }
+  },
+  "required": [
+    "uuid",
+    "gtin",
+    "material",
+    "nominal_netto_full_weight"
+  ],
+  "unevaluatedProperties": false,
+  "oneOf": [
+    {
+      "propreties": {
+        "class": {
+          "const": "FFF"
+        }
+      },
+      "$ref": "fff_material_package.schema.json"
+    },
+    {
+      "propreties": {
+        "class": {
+          "const": "SLA"
+        }
+      },
+      "$ref": "sla_material_package.schema.json"
+    }
+  ]
+}

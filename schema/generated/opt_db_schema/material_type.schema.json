@@ -1,0 +1,37 @@
+{
+  "$id": "/material_type",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "MaterialType",
+  "properties": {
+    "class": {
+      "type": "string",
+      "enum": [
+        "FFF",
+        "SLA"
+      ],
+      "description": "Example: FFF\n\nFFF/SLA"
+    },
+    "abbreviation": {
+      "type": "string",
+      "description": "Example: PETG\n\nShort abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nThe (class, abbreviation) pair forms an unique key."
+    },
+    "id": {
+      "type": "number",
+      "description": "Unique numerical identifier, alternative to the class+abbreviation pair"
+    },
+    "name": {
+      "type": "string",
+      "description": "Example: Polyethylene Terephtalate Glycol"
+    },
+    "default_properties": {
+      "$ref": "material_properties.schema.json"
+    }
+  },
+  "required": [
+    "class",
+    "abbreviation",
+    "name"
+  ],
+  "unevaluatedProperties": false
+}

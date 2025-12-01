@@ -1,0 +1,26 @@
+{
+  "$id": "/fff_material_container",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "FFFMaterialContainer",
+  "properties": {
+    "hole_diameter": {
+      "type": "number",
+      "description": "Unit: mm\n\nDiameter of the hole in the middle of the spool.\nDetermines the maximum diameter of the spool holder rod."
+    },
+    "inner_diameter": {
+      "type": "number",
+      "description": "Unit: mm\n\nInner diameter of the spool = minimum radius the fiament is rolled"
+    },
+    "outer_diameter": {
+      "type": "number",
+      "description": "Unit: mm\n\nOuter diameter of the spool.\nDetermines what spool holders/dryboxes the spool can fit into."
+    },
+    "width": {
+      "type": "number",
+      "description": "Unit: mm\n\nWidth of the spool (= height of the cylinder)\nDetermines what spool holders/dryboxes the spool can fit into."
+    }
+  },
+  "required": [],
+  "unevaluatedProperties": false
+}

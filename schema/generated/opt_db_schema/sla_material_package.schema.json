@@ -1,0 +1,9 @@
+{
+  "$id": "/sla_material_package",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "SLAMaterialPackage",
+  "properties": {},
+  "required": [],
+  "unevaluatedProperties": false
+}

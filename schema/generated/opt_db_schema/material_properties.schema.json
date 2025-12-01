@@ -1,0 +1,32 @@
+{
+  "$id": "/material_properties",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "MaterialProperties",
+  "properties": {
+    "density": {
+      "type": "number",
+      "minimum": 0.01,
+      "maximum": 100,
+      "description": "Unit: g/cm\u00b3 (1 g/cm\u00b3 = 0.001 g/mm\u00b3 = 1000 kg/m\u00b3)"
+    },
+    "hardness_shore_a": {
+      "type": "number",
+      "description": "Hardness of the material on the Shore A scale"
+    },
+    "hardness_shore_d": {
+      "type": "number",
+      "description": "Hardness of the material on the Shore D scale"
+    }
+  },
+  "required": [],
+  "unevaluatedProperties": false,
+  "anyOf": [
+    {
+      "$ref": "fff_material_properties.schema.json"
+    },
+    {
+      "$ref": "sla_material_properties.schema.json"
+    }
+  ]
+}

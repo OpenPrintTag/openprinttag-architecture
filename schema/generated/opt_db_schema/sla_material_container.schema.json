@@ -1,0 +1,26 @@
+{
+  "$id": "/sla_material_container",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "SLAMaterialContainer",
+  "properties": {
+    "width": {
+      "type": "number",
+      "description": "Unit: mm\n\n(Maximum) size of the container in one of the horizontal dimensions"
+    },
+    "length": {
+      "type": "number",
+      "description": "Unit: mm\n\n(Maximum) size of the container in the other horizontal dimension"
+    },
+    "height": {
+      "type": "number",
+      "description": "Unit: mm\n\n(Maximum) size of the container in the vertical dimension."
+    },
+    "connector": {
+      "$ref": "sla_material_container_connector.schema.json",
+      "description": "See SLAMaterialContainerConnector"
+    }
+  },
+  "required": [],
+  "unevaluatedProperties": false
+}

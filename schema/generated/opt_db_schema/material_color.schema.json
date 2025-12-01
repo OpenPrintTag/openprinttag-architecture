@@ -1,0 +1,17 @@
+{
+  "$id": "/material_color",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "MaterialColor",
+  "properties": {
+    "color_rgba": {
+      "type": "string",
+      "pattern": "^#[a-f0-9]{6}([a-f0-9]{2})?$",
+      "description": "Unit: #RRGGBB(AA)\nExample: #ff0000\n\nColor of a material in the RGB format, intended for GUI purposes.\nThe alpha channel can be left out, at which point the color is considered fully opaque."
+    }
+  },
+  "required": [
+    "color_rgba"
+  ],
+  "unevaluatedProperties": false
+}

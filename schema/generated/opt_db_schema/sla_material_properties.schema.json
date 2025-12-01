@@ -1,0 +1,34 @@
+{
+  "$id": "/sla_material_properties",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "SLAMaterialProperties",
+  "properties": {
+    "cure_wavelength": {
+      "type": "number",
+      "description": "Unit: nm\nExample: 405\n\nWavelength of the light the material has been designed to be cured with"
+    },
+    "viscosity_18c": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Unit: mPa\u00b7s\n\nViscosity of the material at 18 \u00b0C"
+    },
+    "viscosity_25c": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Unit: mPa\u00b7s\nExample: 80\n\nViscosity of the material at 25 \u00b0C"
+    },
+    "viscosity_40c": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Unit: mPa\u00b7s\n\nViscosity of the material at 40 \u00b0C"
+    },
+    "viscosity_60c": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Unit: mPa\u00b7s\n\nViscosity of the material at 60 \u00b0C"
+    }
+  },
+  "required": [],
+  "unevaluatedProperties": false
+}

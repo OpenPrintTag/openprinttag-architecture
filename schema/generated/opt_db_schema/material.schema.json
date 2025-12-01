@@ -1,0 +1,277 @@
+{
+  "$id": "/material",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Material",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
+    },
+    "brand": {
+      "$ref": "brand.schema.json"
+    },
+    "brand_specific_id": {
+      "type": "string",
+      "description": "An identifier the brand uses to indentify this specific material"
+    },
+    "class": {
+      "type": "string",
+      "enum": [
+        "FFF",
+        "SLA"
+      ],
+      "description": "Example: FFF\n\nFFF/SLA"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "PLA",
+        "PETG",
+        "TPU",
+        "ABS",
+        "ASA",
+        "PC",
+        "PCTG",
+        "PP",
+        "PA6",
+        "PA11",
+        "PA12",
+        "PA66",
+        "CPE",
+        "TPE",
+        "HIPS",
+        "PHA",
+        "PET",
+        "PEI",
+        "PBT",
+        "PVB",
+        "PVA",
+        "PEKK",
+        "PEEK",
+        "BVOH",
+        "TPC",
+        "PPS",
+        "PPSU",
+        "PVC",
+        "PEBA",
+        "PVDF",
+        "PPA",
+        "PCL",
+        "PES",
+        "PMMA",
+        "POM",
+        "PPE",
+        "PS",
+        "PSU",
+        "TPI",
+        "SBS",
+        "OBC"
+      ],
+      "description": "Example: PETG\n\nType of the material. Can be null if the Material is not of any MaterialType in the list."
+    },
+    "name": {
+      "type": "string",
+      "description": "Example: PETG Carbon Fiber Black\n\nName of the material itself, without the brand name"
+    },
+    "abbreviation": {
+      "type": "string",
+      "description": "Example: PETGCF\n\nShort abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nInherited from `MaterialType` if not present."
+    },
+    "url": {
+      "type": "string",
+      "description": "Example: https://prusament.com/materials/pla/\n\nURL of the info/product page of the material (not material package!)\nIf not specified explicitly, can be also derived using `Brand::material_url_template`"
+    },
+    "properties": {
+      "$ref": "material_properties.schema.json"
+    },
+    "primary_color": {
+      "type": "object",
+      "title": "MaterialColor",
+      "properties": {
+        "color_rgba": {
+          "type": "string",
+          "pattern": "^#[a-f0-9]{6}([a-f0-9]{2})?$",
+          "description": "Unit: #RRGGBB(AA)\nExample: #ff0000\n\nColor of a material in the RGB format, intended for GUI purposes.\nThe alpha channel can be left out, at which point the color is considered fully opaque."
+        }
+      },
+      "required": [
+        "color_rgba"
+      ],
+      "unevaluatedProperties": false,
+      "description": "Primary color of the material, if it has ones.\nIf the material contains multiple colours of same importance (for example coextruded or rainbow filaments), it makes sense to leave this field null and work only with secondary colors.\nImportant! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value"
+    },
+    "secondary_colors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "MaterialColor",
+        "properties": {
+          "color_rgba": {
+            "type": "string",
+            "pattern": "^#[a-f0-9]{6}([a-f0-9]{2})?$",
+            "description": "Unit: #RRGGBB(AA)\nExample: #ff0000\n\nColor of a material in the RGB format, intended for GUI purposes.\nThe alpha channel can be left out, at which point the color is considered fully opaque."
+          }
+        },
+        "required": [
+          "color_rgba"
+        ],
+        "unevaluatedProperties": false
+      },
+      "description": "Additonal colors of the material to the primary colors.\nThe material doesn't have to have a primary colos, in which case all the colors are on the same level of importance as secondary colors.\nSome systems (for example printers) can only work with primary colors and ignore this field.\nImportant! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "filtration_recommended",
+          "biocompatible",
+          "home_compostable",
+          "industrially_compostable",
+          "bio_based",
+          "antibacterial",
+          "air_filtering",
+          "abrasive",
+          "foaming",
+          "castable",
+          "self_extinguishing",
+          "paramagnetic",
+          "radiation_shielding",
+          "high_temperature",
+          "esd_safe",
+          "conductive",
+          "emi_shielding",
+          "blend",
+          "water_soluble",
+          "ipa_soluble",
+          "limonene_soluble",
+          "low_outgassing",
+          "matte",
+          "silk",
+          "translucent",
+          "transparent",
+          "without_pigments",
+          "iridescent",
+          "pearlescent",
+          "glitter",
+          "glow_in_the_dark",
+          "neon",
+          "illuminescent_color_change",
+          "temperature_color_change",
+          "gradual_color_change",
+          "coextruded",
+          "contains_carbon",
+          "contains_carbon_fiber",
+          "contains_carbon_nano_tubes",
+          "contains_glass",
+          "contains_glass_fiber",
+          "contains_kevlar",
+          "contains_ptfe",
+          "contains_stone",
+          "contains_magnetite",
+          "contains_organic_material",
+          "contains_cork",
+          "contains_wax",
+          "contains_wood",
+          "contains_algae",
+          "contains_bamboo",
+          "contains_pine",
+          "contains_ceramic",
+          "contains_boron_carbide",
+          "contains_metal",
+          "contains_bronze",
+          "contains_iron",
+          "contains_steel",
+          "contains_silver",
+          "contains_copper",
+          "contains_aluminium",
+          "contains_brass",
+          "contains_tungsten",
+          "imitates_wood",
+          "imitates_metal",
+          "imitates_marble",
+          "imitates_stone",
+          "lithophane",
+          "recycled",
+          "limited_edition"
+        ]
+      },
+      "description": "Example: glitter, carbon_fiber"
+    },
+    "transmission_distance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Unit: HueForge TD\nExample: 6.6\n\nTransmission Distance is a number representing material opacity. Value ranges from 0.1 (least transparent/most opaque) to 100 (most transparent/least opaque)\nSee [Prusa TD values](https://help.prusa3d.com/article/hueforge-filament-transparency-values-and-hexcodes_762314) or [HueForge website](https://shop.thehueforge.com/blogs/news/what-is-hueforge)."
+    },
+    "refractive_index": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 4,
+      "description": "Example: 1.585\n\nPhysical pefractive index/refraction index/index of refraction/IOR, for visualisation purposes.\nSee [Wikipedia](https://en.wikipedia.org/wiki/Refractive_index), [Database for various materials](https://physicallybased.info/)\nExpected value range [1,3], 3-decimal precision"
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "MaterialCertification",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Unique numerical identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Programming-style `snake_case` identifier"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "User-friendly name of the certification"
+          }
+        },
+        "required": [],
+        "unevaluatedProperties": false
+      },
+      "description": "List of certifications the material has obtained"
+    },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "MaterialPhoto",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Example: https://prusament.com/wp-content/uploads/360_degrees/pla/galaxy_black/08.jpg\n\nURL to the photo"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "unspecified",
+              "print",
+              "package",
+              "filament_colors_sample"
+            ],
+            "description": "Example: `print`\n\nInformation about what actually is on the photo"
+          }
+        },
+        "required": [
+          "url",
+          "type"
+        ],
+        "unevaluatedProperties": false
+      },
+      "description": "Photos of the material"
+    }
+  },
+  "required": [
+    "uuid",
+    "brand",
+    "class",
+    "name",
+    "abbreviation"
+  ],
+  "unevaluatedProperties": false
+}

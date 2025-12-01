@@ -1,0 +1,20 @@
+{
+  "$id": "/sla_material_container_connector",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "SLAMaterialContainerConnector",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "uuid",
+    "name"
+  ],
+  "unevaluatedProperties": false
+}

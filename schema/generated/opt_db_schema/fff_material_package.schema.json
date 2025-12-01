@@ -1,0 +1,25 @@
+{
+  "$id": "/fff_material_package",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "FFFMaterialPackage",
+  "properties": {
+    "filament_diameter": {
+      "type": "number",
+      "description": "Unit: \u00b5m\nExample: 1750"
+    },
+    "filament_diameter_tolerance": {
+      "type": "number",
+      "description": "Unit: \u00b5m"
+    },
+    "nominal_full_length": {
+      "type": "number",
+      "description": "Unit: mm\nExample: 350000\n\nNominal/advertised filament length of the full spool.\nThe actual length of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_full_length`"
+    }
+  },
+  "required": [
+    "filament_diameter",
+    "nominal_full_length"
+  ],
+  "unevaluatedProperties": false
+}

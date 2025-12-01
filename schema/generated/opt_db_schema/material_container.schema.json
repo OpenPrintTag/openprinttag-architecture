@@ -1,0 +1,65 @@
+{
+  "$id": "/material_container",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "MaterialContainer",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of the product.\nIf not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
+    },
+    "class": {
+      "type": "string",
+      "enum": [
+        "FFF",
+        "SLA",
+        "FFF",
+        "SLA"
+      ],
+      "description": "Example: FFF\n\nFFF/SLA"
+    },
+    "brand": {
+      "$ref": "brand.schema.json"
+    },
+    "brand_specific_id": {
+      "type": "string",
+      "description": "Unique identifier of the container within the brand"
+    },
+    "name": {
+      "type": "string"
+    },
+    "volumetric_capacity": {
+      "type": "number",
+      "description": "Unit: ml (cm\u00b3)\n\nMaximum amount of material the container can hold.\nThe volumetric unit has been selected so that the property would work with both SLA and FFF."
+    },
+    "empty_weight": {
+      "type": "number",
+      "description": "Unit: g\n\nWeight of the empty container.\nThe aim is to be able to put the container on a scale, subtract this number and be able to estimate the amount of material inside."
+    }
+  },
+  "required": [
+    "uuid",
+    "class",
+    "name"
+  ],
+  "unevaluatedProperties": false,
+  "oneOf": [
+    {
+      "propreties": {
+        "class": {
+          "const": "FFF"
+        }
+      },
+      "$ref": "fff_material_container.schema.json"
+    },
+    {
+      "propreties": {
+        "class": {
+          "const": "SLA"
+        }
+      },
+      "$ref": "sla_material_container.schema.json"
+    }
+  ]
+}
