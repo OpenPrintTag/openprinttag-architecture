@@ -112,11 +112,7 @@ def entity_schema(
             desc += f"Unit: {field['unit']}\n"
 
         # Do not copy over examples for references, they do not make sense (for example Brand UUID example "Prusament")
-        if (
-            ("example" in field)
-            and (data.get("format") != "uuid")
-            and ("$ref" not in data)
-        ):
+        if ("example" in field) and (data.get("format") != "uuid") and ("$ref" not in data):
             desc += f"Example: {field['example']}\n"
 
         if "description" in field:
@@ -137,29 +133,17 @@ def entity_schema(
             result["required"].append(field_name)
 
     if parent := yaml.get("inherits", None):
-        assert include_inherits is not None, (
-            f"Entity {yaml['name']} has a parent, please specify whether to include it or not"
-        )
+        assert include_inherits is not None, f"Entity {yaml['name']} has a parent, please specify whether to include it or not"
         if include_inherits:
             result = recursive_merge(result, type_schema(parent, []))
 
     all_field_names = set(result["properties"].keys())
-    assert len(fields_blacklist - all_field_names) == 0, (
-        f"{yaml['name']}: Nonexistent field blacklisted: {fields_blacklist - all_field_names}"
-    )
-    assert (fields_whitelist is None) or len(fields_whitelist - all_field_names) == 0, (
-        f"{yaml['name']}: Nonexistent field whitelisted: {fields_whitelist - all_field_names}"
-    )
+    assert len(fields_blacklist - all_field_names) == 0, f"{yaml['name']}: Nonexistent field blacklisted: {fields_blacklist - all_field_names}"
+    assert (fields_whitelist is None) or len(fields_whitelist - all_field_names) == 0, f"{yaml['name']}: Nonexistent field whitelisted: {fields_whitelist - all_field_names}"
 
     # Filter out inherited fields as well
-    result["properties"] = dict(
-        filter(
-            lambda item: not is_field_excluded(item[0]), result["properties"].items()
-        )
-    )
-    result["required"] = list(
-        filter(lambda key: not is_field_excluded(key), result["required"])
-    )
+    result["properties"] = dict(filter(lambda item: not is_field_excluded(item[0]), result["properties"].items()))
+    result["required"] = list(filter(lambda key: not is_field_excluded(key), result["required"]))
 
     assert yaml.get(filter_field, False), f"{yaml['name']} is not marked {filter_field}"
 
