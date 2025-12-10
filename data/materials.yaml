@@ -365,11 +365,6 @@ objects:
     - Minimum recommended nozzle diameter for printing the material.
     - Some materials can contain added particles that would clog the nozzle if the diameter was too small.
 
-  - name: print_sheet_compatibility_list
-    type: PrintSheetCompatibilityRecord[PrintSheetType]
-    in_opt_db: false
-    description: Information about compatible & incompatible print beds.
-
 - name: SLAMaterialProperties
   inherits: MaterialProperties
   in_opt_db: true
