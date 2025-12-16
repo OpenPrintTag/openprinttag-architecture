@@ -51,7 +51,7 @@
   "unevaluatedProperties": false,
   "oneOf": [
     {
-      "propreties": {
+      "properties": {
         "class": {
           "const": "FFF"
         }
@@ -59,7 +59,7 @@
       "$ref": "fff_material_package.schema.json"
     },
     {
-      "propreties": {
+      "properties": {
         "class": {
           "const": "SLA"
         }

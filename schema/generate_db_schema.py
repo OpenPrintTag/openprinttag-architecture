@@ -96,11 +96,11 @@ generate_schema_file(
         },
         "oneOf": [
             {
-                "propreties": {"class": {"const": "FFF"}},
+                "properties": {"class": {"const": "FFF"}},
                 "$ref": "fff_material_package.schema.json",
             },
             {
-                "propreties": {"class": {"const": "SLA"}},
+                "properties": {"class": {"const": "SLA"}},
                 "$ref": "sla_material_package.schema.json",
             },
         ],
@@ -124,11 +124,11 @@ generate_schema_file(
         },
         "oneOf": [
             {
-                "propreties": {"class": {"const": "FFF"}},
+                "properties": {"class": {"const": "FFF"}},
                 "$ref": "fff_material_container.schema.json",
             },
             {
-                "propreties": {"class": {"const": "SLA"}},
+                "properties": {"class": {"const": "SLA"}},
                 "$ref": "sla_material_container.schema.json",
             },
         ],
