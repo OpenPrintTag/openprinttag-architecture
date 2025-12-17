@@ -10,7 +10,18 @@
       "description": "If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
     },
     "brand": {
-      "$ref": "brand.schema.json"
+      "oneOf": [
+        {
+          "$ref": "brand.schema.json"
+        },
+        {
+          "$ref": "slug_reference.schema.json"
+        },
+        {
+          "$ref": "uuid_reference.schema.json"
+        }
+      ],
+      "description": "Example: Prusament"
     },
     "brand_specific_id": {
       "type": "string",
@@ -264,6 +275,10 @@
         "unevaluatedProperties": false
       },
       "description": "Photos of the material"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename."
     }
   },
   "required": [

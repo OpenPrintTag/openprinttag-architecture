@@ -1,0 +1,16 @@
+{
+  "$id": "/uuid_reference",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the entity"
+    }
+  },
+  "required": [
+    "uuid"
+  ],
+  "unevaluatedProperties": false
+}

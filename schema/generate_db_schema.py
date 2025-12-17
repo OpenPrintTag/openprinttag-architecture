@@ -13,6 +13,25 @@ from generate_schema_common import (
 
 setup("opt_db_schema", "required_in_opt_db", "in_opt_db")
 
+
+def object_ref_or_link_schema(object_schema_file: str):
+    return {
+        "oneOf": [
+            object_ref_schema(object_schema_file),
+            object_ref_schema("slug_reference"),
+            object_ref_schema("uuid_reference"),
+        ]
+    }
+
+
+def add_slug_property(schema: dict):
+    schema["properties"]["slug"] = {
+        "type": "string",
+        "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename.",
+    }
+    return schema
+
+
 material_class_schema = {
     "type": "string",
     "enum": ["FFF", "SLA"],
@@ -20,17 +39,47 @@ material_class_schema = {
 
 materials_yaml = read_yaml("materials")
 
+generate_schema_file(
+    "uuid_reference",
+    {
+        "type": "object",
+        "properties": {
+            "uuid": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Reference to the entity",
+            },
+        },
+        "required": ["uuid"],
+        "unevaluatedProperties": False,
+    },
+)
+generate_schema_file(
+    "slug_reference",
+    {
+        "type": "object",
+        "properties": {
+            "slug": {
+                "type": "string",
+                "description": "Location of the entity within the openprinttag-database directory structure",
+            },
+        },
+        "required": ["slug"],
+        "unevaluatedProperties": False,
+    },
+)
+
 register_type_schema("Country", {"type": "string", "minLength": 2, "maxLength": 2})
 register_type_schema("list(Country)", array_schema(type_schema("Country", None)))
 
-register_type_schema("Brand", object_ref_schema("brand"))
-register_type_schema("Material", object_ref_schema("material"))
+register_type_schema("Brand", object_ref_or_link_schema("brand"))
+register_type_schema("Material", object_ref_or_link_schema("material"))
 register_type_schema("MaterialClass", material_class_schema)
 register_type_schema("MaterialType", enum_schema(read_yaml("material_types"), name_item="abbreviation"))
-register_type_schema("MaterialContainer", object_ref_schema("material_container"))
+register_type_schema("MaterialContainer", object_ref_or_link_schema("material_container"))
 register_type_schema(
     "SLAMaterialContainerConnector",
-    object_ref_schema("sla_material_container_connector"),
+    object_ref_or_link_schema("sla_material_container_connector"),
 )
 register_type_schema("PaletteColor", object_ref_schema("palette_color"))
 
@@ -52,7 +101,7 @@ register_type_schema("set(PaletteColor)", array_schema(type_schema("PaletteColor
 register_type_schema("MaterialColor", entity_schema(entity_yaml(materials_yaml, "MaterialColor")))
 register_type_schema("set(MaterialColor)", array_schema(type_schema("MaterialColor", None)))
 
-generate_schema_file("material", entity_schema(entity_yaml(materials_yaml, "Material")))
+generate_schema_file("material", add_slug_property(entity_schema(entity_yaml(materials_yaml, "Material"))))
 generate_schema_file("material_type", entity_schema(entity_yaml(materials_yaml, "MaterialType")))
 
 generate_schema_file(
@@ -83,13 +132,13 @@ register_type_schema(
     array_schema(entity_schema(entity_yaml(brands_yaml, "BrandLinkPattern"))),
 )
 
-generate_schema_file("brand", entity_schema(entity_yaml(brands_yaml, "Brand")))
+generate_schema_file("brand", add_slug_property(entity_schema(entity_yaml(brands_yaml, "Brand"))))
 
 packaging_yaml = read_yaml("packaging")
 
 generate_schema_file(
     "material_package",
-    entity_schema(entity_yaml(packaging_yaml, "MaterialPackage")),
+    add_slug_property(entity_schema(entity_yaml(packaging_yaml, "MaterialPackage"))),
     {
         "properties": {
             "class": material_class_schema,
@@ -117,7 +166,7 @@ generate_schema_file(
 
 generate_schema_file(
     "material_container",
-    entity_schema(entity_yaml(packaging_yaml, "MaterialContainer")),
+    add_slug_property(entity_schema(entity_yaml(packaging_yaml, "MaterialContainer"))),
     {
         "properties": {
             "class": material_class_schema,

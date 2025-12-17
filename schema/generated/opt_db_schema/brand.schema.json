@@ -48,7 +48,17 @@
         "title": "BrandLinkPattern",
         "properties": {
           "brand": {
-            "$ref": "brand.schema.json"
+            "oneOf": [
+              {
+                "$ref": "brand.schema.json"
+              },
+              {
+                "$ref": "slug_reference.schema.json"
+              },
+              {
+                "$ref": "uuid_reference.schema.json"
+              }
+            ]
           },
           "type": {
             "type": "string",
@@ -68,6 +78,10 @@
         "required": [],
         "unevaluatedProperties": false
       }
+    },
+    "slug": {
+      "type": "string",
+      "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename."
     }
   },
   "required": [

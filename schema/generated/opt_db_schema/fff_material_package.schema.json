@@ -19,6 +19,5 @@
   },
   "required": [
     "filament_diameter"
-  ],
-  "unevaluatedProperties": false
+  ]
 }

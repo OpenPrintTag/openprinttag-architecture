@@ -21,6 +21,5 @@
       "description": "Unit: mm\n\nWidth of the spool (= height of the cylinder)\nDetermines what spool holders/dryboxes the spool can fit into."
     }
   },
-  "required": [],
-  "unevaluatedProperties": false
+  "required": []
 }
