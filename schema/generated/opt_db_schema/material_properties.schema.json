@@ -20,7 +20,6 @@
     }
   },
   "required": [],
-  "unevaluatedProperties": false,
   "anyOf": [
     {
       "$ref": "fff_material_properties.schema.json"

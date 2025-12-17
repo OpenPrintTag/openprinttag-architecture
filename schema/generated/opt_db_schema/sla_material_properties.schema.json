@@ -29,6 +29,5 @@
       "description": "Unit: mPa\u00b7s\n\nViscosity of the material at 60 \u00b0C"
     }
   },
-  "required": [],
-  "unevaluatedProperties": false
+  "required": []
 }
