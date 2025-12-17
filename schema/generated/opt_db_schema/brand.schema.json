@@ -48,7 +48,17 @@
         "title": "BrandLinkPattern",
         "properties": {
           "brand": {
-            "$ref": "brand.schema.json"
+            "oneOf": [
+              {
+                "$ref": "brand.schema.json"
+              },
+              {
+                "$ref": "slug_reference.schema.json"
+              },
+              {
+                "$ref": "uuid_reference.schema.json"
+              }
+            ]
           },
           "type": {
             "type": "string",
@@ -65,14 +75,16 @@
             "description": "Example: `https://prusament\\.com/spool/\\?spoolId=(?<MaterialPackageInstance_uuid>\\d+)/`\n\nRegex pattern for matching the link. The regex is required to use named capturing groups, where the group name is the captured property name in the form of `object_property`"
           }
         },
-        "required": [],
-        "unevaluatedProperties": false
+        "required": []
       }
+    },
+    "slug": {
+      "type": "string",
+      "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename."
     }
   },
   "required": [
     "uuid",
     "name"
-  ],
-  "unevaluatedProperties": false
+  ]
 }

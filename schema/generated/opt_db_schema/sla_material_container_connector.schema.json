@@ -15,6 +15,5 @@
   "required": [
     "uuid",
     "name"
-  ],
-  "unevaluatedProperties": false
+  ]
 }

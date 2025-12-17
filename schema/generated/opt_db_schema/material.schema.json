@@ -10,7 +10,18 @@
       "description": "If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
     },
     "brand": {
-      "$ref": "brand.schema.json"
+      "oneOf": [
+        {
+          "$ref": "brand.schema.json"
+        },
+        {
+          "$ref": "slug_reference.schema.json"
+        },
+        {
+          "$ref": "uuid_reference.schema.json"
+        }
+      ],
+      "description": "Example: Prusament"
     },
     "brand_specific_id": {
       "type": "string",
@@ -99,7 +110,6 @@
       "required": [
         "color_rgba"
       ],
-      "unevaluatedProperties": false,
       "description": "Primary color of the material, if it has ones.\nIf the material contains multiple colours of same importance (for example coextruded or rainbow filaments), it makes sense to leave this field null and work only with secondary colors.\nImportant! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value"
     },
     "secondary_colors": {
@@ -116,8 +126,7 @@
         },
         "required": [
           "color_rgba"
-        ],
-        "unevaluatedProperties": false
+        ]
       },
       "description": "Additonal colors of the material to the primary colors.\nThe material doesn't have to have a primary colos, in which case all the colors are on the same level of importance as secondary colors.\nSome systems (for example printers) can only work with primary colors and ignore this field.\nImportant! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value"
     },
@@ -231,8 +240,7 @@
             "description": "User-friendly name of the certification"
           }
         },
-        "required": [],
-        "unevaluatedProperties": false
+        "required": []
       },
       "description": "List of certifications the material has obtained"
     },
@@ -260,10 +268,13 @@
         "required": [
           "url",
           "type"
-        ],
-        "unevaluatedProperties": false
+        ]
       },
       "description": "Photos of the material"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename."
     }
   },
   "required": [
@@ -272,6 +283,5 @@
     "class",
     "name",
     "abbreviation"
-  ],
-  "unevaluatedProperties": false
+  ]
 }
