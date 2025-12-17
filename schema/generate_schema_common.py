@@ -81,8 +81,10 @@ def entity_schema(
         "title": yaml["name"],
         "properties": {},
         "required": [],
-        "unevaluatedProperties": False,
     }
+
+    if include_inherits is not False:
+        result["unevaluatedProperties"] = False
 
     def is_field_excluded(field_name):
         if "(" in field_name:

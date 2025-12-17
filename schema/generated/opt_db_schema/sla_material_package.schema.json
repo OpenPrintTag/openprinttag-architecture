@@ -4,6 +4,5 @@
   "type": "object",
   "title": "SLAMaterialPackage",
   "properties": {},
-  "required": [],
-  "unevaluatedProperties": false
+  "required": []
 }

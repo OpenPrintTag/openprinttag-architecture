@@ -1,0 +1,15 @@
+{
+  "$id": "/slug_reference",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "description": "Location of the entity within the openprinttag-database directory structure"
+    }
+  },
+  "required": [
+    "slug"
+  ],
+  "unevaluatedProperties": false
+}

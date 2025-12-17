@@ -28,10 +28,32 @@
       "description": "[Global Trade Item Number](https://en.wikipedia.org/wiki/Global_Trade_Item_Number) of the product - typically a 'barcode' product ID\nThis is a more general ID than covers EAN, ISBN and other."
     },
     "container": {
-      "$ref": "material_container.schema.json"
+      "oneOf": [
+        {
+          "$ref": "material_container.schema.json"
+        },
+        {
+          "$ref": "slug_reference.schema.json"
+        },
+        {
+          "$ref": "uuid_reference.schema.json"
+        }
+      ],
+      "description": "Example: Prusament 1kg spool"
     },
     "material": {
-      "$ref": "material.schema.json"
+      "oneOf": [
+        {
+          "$ref": "material.schema.json"
+        },
+        {
+          "$ref": "slug_reference.schema.json"
+        },
+        {
+          "$ref": "uuid_reference.schema.json"
+        }
+      ],
+      "description": "Example: Prusament PLA Galaxy Black"
     },
     "url": {
       "type": "string",
@@ -40,6 +62,10 @@
     "nominal_netto_full_weight": {
       "type": "number",
       "description": "Unit: g\nExample: 1000\n\nNominal/advertised weight of the full package of the material, excluding the weight of the container\nThe actual netto weight of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_netto_full_weight`"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename."
     }
   },
   "required": [

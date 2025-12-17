@@ -20,7 +20,18 @@
       "description": "Example: FFF\n\nFFF/SLA"
     },
     "brand": {
-      "$ref": "brand.schema.json"
+      "oneOf": [
+        {
+          "$ref": "brand.schema.json"
+        },
+        {
+          "$ref": "slug_reference.schema.json"
+        },
+        {
+          "$ref": "uuid_reference.schema.json"
+        }
+      ],
+      "description": "Example: Prusament"
     },
     "brand_specific_id": {
       "type": "string",
@@ -36,6 +47,10 @@
     "empty_weight": {
       "type": "number",
       "description": "Unit: g\n\nWeight of the empty container.\nThe aim is to be able to put the container on a scale, subtract this number and be able to estimate the amount of material inside."
+    },
+    "slug": {
+      "type": "string",
+      "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename."
     }
   },
   "required": [

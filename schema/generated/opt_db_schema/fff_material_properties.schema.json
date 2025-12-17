@@ -80,6 +80,5 @@
     "max_print_temperature",
     "min_bed_temperature",
     "max_bed_temperature"
-  ],
-  "unevaluatedProperties": false
+  ]
 }

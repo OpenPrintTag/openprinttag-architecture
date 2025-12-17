@@ -17,10 +17,19 @@
       "description": "Unit: mm\n\n(Maximum) size of the container in the vertical dimension."
     },
     "connector": {
-      "$ref": "sla_material_container_connector.schema.json",
-      "description": "See SLAMaterialContainerConnector"
+      "oneOf": [
+        {
+          "$ref": "sla_material_container_connector.schema.json"
+        },
+        {
+          "$ref": "slug_reference.schema.json"
+        },
+        {
+          "$ref": "uuid_reference.schema.json"
+        }
+      ],
+      "description": "Example: 20mm thread\n\nSee SLAMaterialContainerConnector"
     }
   },
-  "required": [],
-  "unevaluatedProperties": false
+  "required": []
 }
