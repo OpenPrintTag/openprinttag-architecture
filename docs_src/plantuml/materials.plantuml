@@ -15,9 +15,6 @@ package Packaging {
 
 {{ plantuml_entity("SLAMaterialProperties") }}
 
-{{ plantuml_entity("PrintSheetCompatibilityRecord") }}
-PrintSheetCompatibilityRecord -d- FFFMaterialProperties
-
 {{ plantuml_entity("MaterialType") }}
 MaterialType -r- MaterialProperties
 
