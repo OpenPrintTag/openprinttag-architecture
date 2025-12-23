@@ -19,6 +19,7 @@ objects:
   - name: abbreviation
     primary_key: true
     type: string
+    maxLength: 7
     example: PETG
     description:
     - Short abbreviation of the material type name, no longer than 7 characters.
@@ -85,6 +86,7 @@ objects:
 
   - name: abbreviation
     type: string
+    maxLength: 7
     example: PETGCF
     description:
     - Short abbreviation of the material type name, no longer than 7 characters.
