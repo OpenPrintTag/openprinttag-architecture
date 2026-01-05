@@ -204,7 +204,6 @@ objects:
     unit: "\xB5m"
 
   - name: nominal_full_length
-    required_in_opt_db: true
     type: number
     unit: mm
     example: 350000

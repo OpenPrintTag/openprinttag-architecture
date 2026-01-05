@@ -18,8 +18,7 @@
     }
   },
   "required": [
-    "filament_diameter",
-    "nominal_full_length"
+    "filament_diameter"
   ],
   "unevaluatedProperties": false
 }
