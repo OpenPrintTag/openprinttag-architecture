@@ -178,26 +178,30 @@
   category: visual
   display_name: Matte
   description:
-    - Produces matte, non-shiny surface (very low specular reflection coefficient).
+    - Contains additives that increase the mattness of the material.
+    - Matte materials produce non-shiny surface (very low specular reflection coefficient).
+    - This is relative to the material type baseline – for example PETG with the `matte` tag will possibly have similar mattness as a standard PLA.
 
 - key: 17
   name: silk
   category: visual
   display_name: Silk
   description:
-    - Produces smooth, shiny/glossy surface (higher specular reflection coefficient).
+    - Contains additives that increase the glossiness of the material.
+    - Silk materials produce smooth, shiny/glossy surface (higher specular reflection coefficient).
+    - This is relative to the material type baseline – for example PLA with the `silk` tag will possibly have similar gloss as a standard PETG.
 
 - key: 18
   deprecated: true
-
 
 - key: 19
   name: translucent
   category: visual
   display_name: Translucent
   description:
-   - Not fully opaque – [HueForge TD](https://shop.thehueforge.com/blogs/news/what-is-hueforge) >= `X` (exact `X` will be determined later).
-   - The material with this tag can possibly disperse light, meaning that while the light goes through it, the image is "blurred" and one does not see clearly what's on the other side. See the `transparent` tag.
+    - Not fully opaque – [HueForge TD](https://shop.thehueforge.com/blogs/news/what-is-hueforge) > 1.
+    - "Note: TD threshold based on a common wall thickness of prints of 1 mm."
+    - The material with this tag can possibly disperse light, meaning that while the light goes through it, the image is "blurred" and one does not see clearly what's on the other side. See the `transparent` tag.
 
 - key: 20
   name: transparent
