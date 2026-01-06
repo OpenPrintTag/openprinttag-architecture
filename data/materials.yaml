@@ -8,14 +8,6 @@ objects:
 
   in_opt_db: true
   fields:
-  - name: class
-    type: MaterialClass
-    primary_key: true
-    example: FFF
-    description: FFF/SLA
-    required_in_opt_db: true
-    in_slx_workflow_db: false
-
   - name: abbreviation
     primary_key: true
     type: string

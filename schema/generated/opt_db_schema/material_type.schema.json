@@ -4,14 +4,6 @@
   "type": "object",
   "title": "MaterialType",
   "properties": {
-    "class": {
-      "type": "string",
-      "enum": [
-        "FFF",
-        "SLA"
-      ],
-      "description": "Example: FFF\n\nFFF/SLA"
-    },
     "abbreviation": {
       "type": "string",
       "description": "Example: PETG\n\nShort abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nThe (class, abbreviation) pair forms an unique key."
@@ -29,7 +21,6 @@
     }
   },
   "required": [
-    "class",
     "abbreviation",
     "name"
   ],
