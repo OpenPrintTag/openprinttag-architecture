@@ -78,7 +78,8 @@
         "PSU",
         "TPI",
         "SBS",
-        "OBC"
+        "OBC",
+        "EVA"
       ],
       "description": "Example: PETG\n\nType of the material. Can be null if the Material is not of any MaterialType in the list."
     },
@@ -151,6 +152,7 @@
           "paramagnetic",
           "radiation_shielding",
           "high_temperature",
+          "high_speed",
           "esd_safe",
           "conductive",
           "emi_shielding",
@@ -176,6 +178,7 @@
           "contains_carbon",
           "contains_carbon_fiber",
           "contains_carbon_nano_tubes",
+          "contains_graphene",
           "contains_glass",
           "contains_glass_fiber",
           "contains_kevlar",
