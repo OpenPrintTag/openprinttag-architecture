@@ -229,24 +229,12 @@
     "certifications": {
       "type": "array",
       "items": {
-        "type": "object",
-        "title": "MaterialCertification",
-        "properties": {
-          "id": {
-            "type": "number",
-            "description": "Unique numerical identifier"
-          },
-          "name": {
-            "type": "string",
-            "description": "Programming-style `snake_case` identifier"
-          },
-          "display_name": {
-            "type": "string",
-            "description": "User-friendly name of the certification"
-          }
-        },
-        "required": [],
-        "unevaluatedProperties": false
+        "type": "string",
+        "enum": [
+          "ul_2818",
+          "ul_94_v0",
+          "ul_2904"
+        ]
       },
       "description": "List of certifications the material has obtained"
     },
