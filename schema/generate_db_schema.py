@@ -91,7 +91,7 @@ register_type_schema(
 )
 register_type_schema(
     "set(MaterialCertification)",
-    array_schema(entity_schema(entity_yaml(materials_yaml, "MaterialCertification"))),
+    array_schema(enum_schema(read_yaml("material_certifications"))),
 )
 register_type_schema("MaterialProperties", object_ref_schema("material_properties"))
 
