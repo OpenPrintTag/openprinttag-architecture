@@ -6,7 +6,8 @@
   "properties": {
     "abbreviation": {
       "type": "string",
-      "description": "Example: PETG\n\nShort abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nThe (class, abbreviation) pair forms an unique key."
+      "x-example": "PETG",
+      "description": "Short abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nThe (class, abbreviation) pair forms an unique key."
     },
     "id": {
       "type": "number",
@@ -14,7 +15,7 @@
     },
     "name": {
       "type": "string",
-      "description": "Example: Polyethylene Terephtalate Glycol"
+      "x-example": "Polyethylene Terephtalate Glycol"
     },
     "default_properties": {
       "$ref": "material_properties.schema.json"

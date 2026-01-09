@@ -6,15 +6,18 @@
   "properties": {
     "filament_diameter": {
       "type": "number",
-      "description": "Unit: \u00b5m\nExample: 1750"
+      "x-unit": "\u00b5m",
+      "x-example": 1750
     },
     "filament_diameter_tolerance": {
       "type": "number",
-      "description": "Unit: \u00b5m"
+      "x-unit": "\u00b5m"
     },
     "nominal_full_length": {
       "type": "number",
-      "description": "Unit: mm\nExample: 350000\n\nNominal/advertised filament length of the full spool.\nThe actual length of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_full_length`"
+      "x-unit": "mm",
+      "x-example": 350000,
+      "description": "Nominal/advertised filament length of the full spool.\nThe actual length of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_full_length`"
     }
   },
   "required": [

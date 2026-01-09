@@ -6,15 +6,18 @@
   "properties": {
     "width": {
       "type": "number",
-      "description": "Unit: mm\n\n(Maximum) size of the container in one of the horizontal dimensions"
+      "x-unit": "mm",
+      "description": "(Maximum) size of the container in one of the horizontal dimensions"
     },
     "length": {
       "type": "number",
-      "description": "Unit: mm\n\n(Maximum) size of the container in the other horizontal dimension"
+      "x-unit": "mm",
+      "description": "(Maximum) size of the container in the other horizontal dimension"
     },
     "height": {
       "type": "number",
-      "description": "Unit: mm\n\n(Maximum) size of the container in the vertical dimension."
+      "x-unit": "mm",
+      "description": "(Maximum) size of the container in the vertical dimension."
     },
     "connector": {
       "oneOf": [
@@ -28,7 +31,8 @@
           "$ref": "uuid_reference.schema.json"
         }
       ],
-      "description": "Example: 20mm thread\n\nSee SLAMaterialContainerConnector"
+      "x-example": "20mm thread",
+      "description": "See SLAMaterialContainerConnector"
     }
   },
   "required": []

@@ -6,19 +6,23 @@
   "properties": {
     "hole_diameter": {
       "type": "number",
-      "description": "Unit: mm\n\nDiameter of the hole in the middle of the spool.\nDetermines the maximum diameter of the spool holder rod."
+      "x-unit": "mm",
+      "description": "Diameter of the hole in the middle of the spool.\nDetermines the maximum diameter of the spool holder rod."
     },
     "inner_diameter": {
       "type": "number",
-      "description": "Unit: mm\n\nInner diameter of the spool = minimum radius the fiament is rolled"
+      "x-unit": "mm",
+      "description": "Inner diameter of the spool = minimum radius the fiament is rolled"
     },
     "outer_diameter": {
       "type": "number",
-      "description": "Unit: mm\n\nOuter diameter of the spool.\nDetermines what spool holders/dryboxes the spool can fit into."
+      "x-unit": "mm",
+      "description": "Outer diameter of the spool.\nDetermines what spool holders/dryboxes the spool can fit into."
     },
     "width": {
       "type": "number",
-      "description": "Unit: mm\n\nWidth of the spool (= height of the cylinder)\nDetermines what spool holders/dryboxes the spool can fit into."
+      "x-unit": "mm",
+      "description": "Width of the spool (= height of the cylinder)\nDetermines what spool holders/dryboxes the spool can fit into."
     }
   },
   "required": []

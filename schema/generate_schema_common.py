@@ -110,12 +110,12 @@ def entity_schema(
         data = copy.deepcopy(type_schema(field["type"], field))
         desc = ""
 
-        if "unit" in field:
-            desc += f"Unit: {field['unit']}\n"
+        if unit := field.get("unit"):
+            data["x-unit"] = unit
 
         # Do not copy over examples for references, they do not make sense (for example Brand UUID example "Prusament")
-        if ("example" in field) and (data.get("format") != "uuid") and ("$ref" not in data):
-            desc += f"Example: {field['example']}\n"
+        if (example := field.get("example")) and (data.get("format") != "uuid") and ("$ref" not in data):
+            data["x-example"] = example
 
         if "description" in field:
             desc_val = field["description"]
