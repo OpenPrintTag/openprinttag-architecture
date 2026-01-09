@@ -17,7 +17,8 @@
         "FFF",
         "SLA"
       ],
-      "description": "Example: FFF\n\nFFF/SLA"
+      "x-example": "FFF",
+      "description": "FFF/SLA"
     },
     "brand_specific_id": {
       "type": "string",
@@ -39,7 +40,7 @@
           "$ref": "uuid_reference.schema.json"
         }
       ],
-      "description": "Example: Prusament 1kg spool"
+      "x-example": "Prusament 1kg spool"
     },
     "material": {
       "oneOf": [
@@ -53,15 +54,18 @@
           "$ref": "uuid_reference.schema.json"
         }
       ],
-      "description": "Example: Prusament PLA Galaxy Black"
+      "x-example": "Prusament PLA Galaxy Black"
     },
     "url": {
       "type": "string",
-      "description": "Example: https://www.prusa3d.com/product/prusament-pla-jet-black-1kg/\n\nURL of the product page\nIf not specified explicitly, can be also derived using `Brand::material_package_url_template`"
+      "x-example": "https://www.prusa3d.com/product/prusament-pla-jet-black-1kg/",
+      "description": "URL of the product page\nIf not specified explicitly, can be also derived using `Brand::material_package_url_template`"
     },
     "nominal_netto_full_weight": {
       "type": "number",
-      "description": "Unit: g\nExample: 1000\n\nNominal/advertised weight of the full package of the material, excluding the weight of the container\nThe actual netto weight of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_netto_full_weight`"
+      "x-unit": "g",
+      "x-example": 1000,
+      "description": "Nominal/advertised weight of the full package of the material, excluding the weight of the container\nThe actual netto weight of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_netto_full_weight`"
     },
     "slug": {
       "type": "string",

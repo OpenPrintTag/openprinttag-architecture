@@ -8,7 +8,7 @@
       "type": "number",
       "minimum": 0.01,
       "maximum": 100,
-      "description": "Unit: g/cm\u00b3 (1 g/cm\u00b3 = 0.001 g/mm\u00b3 = 1000 kg/m\u00b3)"
+      "x-unit": "g/cm\u00b3 (1 g/cm\u00b3 = 0.001 g/mm\u00b3 = 1000 kg/m\u00b3)"
     },
     "hardness_shore_a": {
       "type": "number",
