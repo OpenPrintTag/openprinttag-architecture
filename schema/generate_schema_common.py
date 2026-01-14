@@ -197,6 +197,12 @@ def string_schema(yaml):
     if "opt_db_regex" in yaml:
         result["pattern"] = yaml["opt_db_regex"]
 
+    if "max_length" in yaml:
+        result["maxLength"] = yaml["max_length"]
+
+    if "min_length" in yaml:
+        result["minLength"] = yaml["min_length"]
+
     return result
 
 
