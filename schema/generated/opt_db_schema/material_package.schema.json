@@ -13,8 +13,6 @@
       "type": "string",
       "enum": [
         "FFF",
-        "SLA",
-        "FFF",
         "SLA"
       ],
       "x-example": "FFF",

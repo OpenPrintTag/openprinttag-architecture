@@ -140,9 +140,6 @@ generate_schema_file(
     "material_package",
     add_slug_property(entity_schema(entity_yaml(packaging_yaml, "MaterialPackage"))),
     {
-        "properties": {
-            "class": material_class_schema,
-        },
         "oneOf": [
             {
                 "properties": {"class": {"const": "FFF"}},
