@@ -72,7 +72,6 @@
   },
   "required": [
     "uuid",
-    "gtin",
     "material",
     "nominal_netto_full_weight"
   ],

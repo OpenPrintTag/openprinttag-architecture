@@ -157,7 +157,6 @@ objects:
 
   - name: gtin
     type: number
-    required_in_opt_db: true
     description:
     - '[Global Trade Item Number](https://en.wikipedia.org/wiki/Global_Trade_Item_Number) of the product - typically a ''barcode'' product ID'
     - This is a more general ID than covers EAN, ISBN and other.
