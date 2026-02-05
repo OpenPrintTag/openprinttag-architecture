@@ -1,0 +1,25 @@
+{
+  "$id": "/country",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Country",
+  "properties": {
+    "code": {
+      "type": "string",
+      "x-example": "CZ",
+      "description": "Two-letter country code, according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)"
+    },
+    "name": {
+      "type": "string",
+      "x-example": "Czechia",
+      "description": "Name of the country, in English, according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)"
+    },
+    "flag": {
+      "type": "string",
+      "x-example": "\ud83c\udde8\ud83c\uddff",
+      "description": "Emoji representing the country flag"
+    }
+  },
+  "required": [],
+  "unevaluatedProperties": false
+}

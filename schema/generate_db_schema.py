@@ -1,12 +1,12 @@
 from generate_schema_common import (
-    object_ref_schema,
     array_schema,
-    read_yaml,
-    enum_schema,
-    entity_yaml,
-    generate_schema_file,
-    register_type_schema,
     entity_schema,
+    entity_yaml,
+    enum_schema,
+    generate_schema_file,
+    object_ref_schema,
+    read_yaml,
+    register_type_schema,
     setup,
     type_schema,
 )
@@ -194,3 +194,5 @@ generate_schema_file(
 )
 
 generate_schema_file("material_color", entity_schema(entity_yaml(materials_yaml, "MaterialColor")))
+
+generate_schema_file("country", entity_schema(entity_yaml(brands_yaml, "Country")))
