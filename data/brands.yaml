@@ -85,5 +85,16 @@ objects:
   fields:
   - name: code
     type: string
+    example: CZ
     primary_key: true
     description: Two-letter country code, according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+
+  - name: name
+    type: string
+    example: Czechia
+    description: Name of the country, in English, according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+
+  - name: flag
+    type: string
+    example: "\U0001F1E8\U0001F1FF"
+    description: Emoji representing the country flag
