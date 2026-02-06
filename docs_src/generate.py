@@ -1,4 +1,11 @@
-from generate_common import generate, ProjectTag
+import tables
+from generate_common import ProjectTag, env, generate
+
+env.globals["country_columns"] = [
+    tables.Column(field="code", title="Code"),
+    tables.Column(field="name", title="Name"),
+    tables.Column(field="flag", title="Flag"),
+]
 
 generate(
     files=[
