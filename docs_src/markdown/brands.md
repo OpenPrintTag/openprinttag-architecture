@@ -22,3 +22,8 @@
 	* (Specific material type not decipherable from the link)
 
 {{ class_documentation("brands.yaml", "Country") }}
+
+<details>
+<summary><b>Full country list</b></summary>
+
+{{ enum_table("countries.yaml", country_columns) }}
