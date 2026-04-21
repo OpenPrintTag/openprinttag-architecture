@@ -141,7 +141,6 @@ objects:
   - name: uuid
     type: UUID
     primary_key: true
-    required_in_opt_db: true
     description:
     - Unique identifier of the product.
     - If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid).
