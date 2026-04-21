@@ -71,7 +71,6 @@
     }
   },
   "required": [
-    "uuid",
     "material",
     "nominal_netto_full_weight"
   ],
