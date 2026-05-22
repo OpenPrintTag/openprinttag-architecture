@@ -105,41 +105,13 @@
       "$ref": "material_properties.schema.json"
     },
     "primary_color": {
-      "type": "object",
-      "title": "MaterialColor",
-      "properties": {
-        "color_rgba": {
-          "type": "string",
-          "pattern": "^#[a-f0-9]{6}([a-f0-9]{2})?$",
-          "x-unit": "#RRGGBB(AA)",
-          "x-example": "#ff0000",
-          "description": "Color of a material in the RGB format, intended for GUI purposes.\nThe alpha channel can be left out, at which point the color is considered fully opaque."
-        }
-      },
-      "required": [
-        "color_rgba"
-      ],
-      "unevaluatedProperties": false,
+      "$ref": "material_color.schema.json",
       "description": "Primary color of the material, if it has ones.\nIf the material contains multiple colours of same importance (for example coextruded or rainbow filaments), it makes sense to leave this field null and work only with secondary colors.\nImportant! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value"
     },
     "secondary_colors": {
       "type": "array",
       "items": {
-        "type": "object",
-        "title": "MaterialColor",
-        "properties": {
-          "color_rgba": {
-            "type": "string",
-            "pattern": "^#[a-f0-9]{6}([a-f0-9]{2})?$",
-            "x-unit": "#RRGGBB(AA)",
-            "x-example": "#ff0000",
-            "description": "Color of a material in the RGB format, intended for GUI purposes.\nThe alpha channel can be left out, at which point the color is considered fully opaque."
-          }
-        },
-        "required": [
-          "color_rgba"
-        ],
-        "unevaluatedProperties": false
+        "$ref": "material_color.schema.json"
       },
       "description": "Additonal colors of the material to the primary colors.\nThe material doesn't have to have a primary colos, in which case all the colors are on the same level of importance as secondary colors.\nSome systems (for example printers) can only work with primary colors and ignore this field.\nImportant! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value"
     },
