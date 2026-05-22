@@ -235,11 +235,24 @@ register_type_schema("uint", uint_schema)
 
 register_type_schema("UUID", uuid_schema)
 
-color_schema = {
+color_rgba_schema = {
     "type": "string",
     "pattern": "^#[a-f0-9]{6}([a-f0-9]{2})?$",
 }
-register_type_schema("color", color_schema)
+register_type_schema("color_rgba", color_rgba_schema)
+
+color_lab_schema = {
+    "type": "array",
+    "prefixItems": [
+        {"type": "number", "minimum": 0, "maximum": 100},
+        {"type": "number", "minimum": -150, "maximum": 150},
+        {"type": "number", "minimum": -150, "maximum": 150},
+    ],
+    "items": False,
+    "minItems": 3,
+    "maxItems": 3,
+}
+register_type_schema("color_lab", color_lab_schema)
 
 register_type_schema("bool", {"type": "boolean"})
 
