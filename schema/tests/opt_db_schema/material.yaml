@@ -9,6 +9,7 @@ abbreviation: PLA
 url: https://www.prusa3d.com/product/prusament-pla-recycled-2kg/
 primary_color:
   color_rgba: '#000000ff'
+  color_lab: [20, -11, 50]
 tags:
 - recycled
 - industrially_compostable
