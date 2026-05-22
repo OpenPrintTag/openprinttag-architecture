@@ -81,7 +81,6 @@ register_type_schema(
     "SLAMaterialContainerConnector",
     object_ref_or_link_schema("sla_material_container_connector"),
 )
-register_type_schema("PaletteColor", object_ref_schema("palette_color"))
 
 register_type_schema("set(MaterialTag)", array_schema(enum_schema(read_yaml("material_tags"))))
 register_type_schema("MaterialPhotoType", enum_schema(read_yaml("material_photo_types")))
@@ -94,9 +93,6 @@ register_type_schema(
     array_schema(enum_schema(read_yaml("material_certifications"))),
 )
 register_type_schema("MaterialProperties", object_ref_schema("material_properties"))
-
-register_type_schema("set(PaletteColor)", array_schema(type_schema("PaletteColor", None)))
-
 
 register_type_schema("MaterialColor", entity_schema(entity_yaml(materials_yaml, "MaterialColor")))
 register_type_schema("set(MaterialColor)", array_schema(type_schema("MaterialColor", None)))
