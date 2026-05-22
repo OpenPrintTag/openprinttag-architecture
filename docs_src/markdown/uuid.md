@@ -44,10 +44,4 @@ material_package_instance_namespace = "31062f81-b5bd-4f86-a5f8-46367e841508"
 nfc_tag_uid = b"\xE0\x04\x01\x08\x66\x2F\x6F\xBC"
 material_package_instance_uuid = generate_uuid(material_package_instance_namespace, nfc_tag_uid)
 print(f"material_package_instance_uuid = {material_package_instance_uuid}")
-
-palette_color_namespace = "6c10f945-d488-40aa-8a7e-d6d0bcacaccb"
-palette_name = "pantone"
-palette_color_name = "14-0225 TCX"
-palette_color_uuid = generate_uuid(material_namespace, palette_name.encode("utf-8"), palette_color_name.encode("utf-8"))
-print(f"palette_color_uuid = {palette_color_uuid}")
 {% endpython %}
