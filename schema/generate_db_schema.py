@@ -94,7 +94,7 @@ register_type_schema(
 )
 register_type_schema("MaterialProperties", object_ref_schema("material_properties"))
 
-register_type_schema("MaterialColor", entity_schema(entity_yaml(materials_yaml, "MaterialColor")))
+register_type_schema("MaterialColor", object_ref_schema("material_color"))
 register_type_schema("set(MaterialColor)", array_schema(type_schema("MaterialColor", None)))
 
 generate_schema_file("material", add_slug_property(entity_schema(entity_yaml(materials_yaml, "Material"))))
