@@ -34,3 +34,6 @@ jobs:
             echo "::error:: Uncommited schema changes. Please run 'sh generate_schemas.sh' locally and commit the changes."
             exit 1
           fi
+
+      - name: Test schemas
+        run: python3 schema/tests/test_opt_db_schema.py
