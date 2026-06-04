@@ -69,9 +69,7 @@ def _render_enum_section(stem: str, data: dict) -> str:
     has_display = "display_name" in first
     has_desc = "description" in first
 
-    headers = (["Key"] if has_key else []) + (["Abbreviation"] if has_abbr else []) + \
-              (["Name"] if has_name else []) + (["Display Name"] if has_display else []) + \
-              (["Description"] if has_desc else [])
+    headers = (["Key"] if has_key else []) + (["Abbreviation"] if has_abbr else []) + (["Name"] if has_name else []) + (["Display Name"] if has_display else []) + (["Description"] if has_desc else [])
 
     lines = [f"## Enum: {stem}", ""]
     lines.append("| " + " | ".join(headers) + " |")
