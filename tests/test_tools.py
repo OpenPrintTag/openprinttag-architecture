@@ -15,9 +15,7 @@ from mcp_server.tools import (
 def test_get_tools_guide_lists_all_10_tools():
     result = get_tools_guide()
     names = [t["name"] for t in result["tools"]]
-    for expected in ["get_tools_guide", "get_overview", "get_entity", "get_enum",
-                     "get_relationships", "get_examples", "validate_data",
-                     "find_discrepancies", "get_full_context", "search"]:
+    for expected in ["get_tools_guide", "get_overview", "get_entity", "get_enum", "get_relationships", "get_examples", "validate_data", "find_discrepancies", "get_full_context", "search"]:
         assert expected in names, f"Missing tool: {expected}"
 
 
@@ -211,6 +209,7 @@ def test_search_result_has_required_keys():
 
 # --- validate_data ---
 
+
 def test_validate_data_valid_data_returns_no_errors():
     # Pass only non-required fields — should be valid since no required fields are missing
     result = validate_data("Brand", {"uuid": "550e8400-e29b-41d4-a716-446655440000", "name": "Prusament"})
@@ -280,33 +279,40 @@ def test_validate_data_valid_enum_value_accepted():
 
 # --- find_discrepancies ---
 
+
 def test_find_discrepancies_missing_fields():
-    result = find_discrepancies({
-        "entity": "Material",
-        "fields": [{"name": "uuid", "type": "UUID"}],
-    })
+    result = find_discrepancies(
+        {
+            "entity": "Material",
+            "fields": [{"name": "uuid", "type": "UUID"}],
+        }
+    )
     missing_names = [f["name"] for f in result["missing_fields"]]
     assert "brand" in missing_names
     assert "name" in missing_names
 
 
 def test_find_discrepancies_type_mismatch():
-    result = find_discrepancies({
-        "entity": "Material",
-        "fields": [{"name": "uuid", "type": "integer"}],
-    })
+    result = find_discrepancies(
+        {
+            "entity": "Material",
+            "fields": [{"name": "uuid", "type": "integer"}],
+        }
+    )
     mismatches = [m["field"] for m in result["type_mismatches"]]
     assert "uuid" in mismatches
 
 
 def test_find_discrepancies_extra_fields():
-    result = find_discrepancies({
-        "entity": "Brand",
-        "fields": [
-            {"name": "uuid", "type": "UUID"},
-            {"name": "nonexistent_field_xyz", "type": "string"},
-        ],
-    })
+    result = find_discrepancies(
+        {
+            "entity": "Brand",
+            "fields": [
+                {"name": "uuid", "type": "UUID"},
+                {"name": "nonexistent_field_xyz", "type": "string"},
+            ],
+        }
+    )
     assert "nonexistent_field_xyz" in result["extra_fields"]
 
 
