@@ -266,5 +266,39 @@
     "name",
     "abbreviation"
   ],
-  "unevaluatedProperties": false
+  "unevaluatedProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "class": {
+            "const": "FFF"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "properties": {
+            "$ref": "fff_material_properties.schema.json"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class": {
+            "const": "SLA"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "properties": {
+            "$ref": "sla_material_properties.schema.json"
+          }
+        }
+      }
+    }
+  ]
 }

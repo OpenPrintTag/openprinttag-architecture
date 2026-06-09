@@ -36,5 +36,7 @@
       "description": "Viscosity of the material at 60 \u00b0C"
     }
   },
-  "required": []
+  "required": [],
+  "unevaluatedProperties": false,
+  "$ref": "material_properties.schema.json"
 }
