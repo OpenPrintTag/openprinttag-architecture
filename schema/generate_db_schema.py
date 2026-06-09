@@ -171,14 +171,14 @@ generate_schema_file(
         "properties": {
             "class": material_class_schema,
         },
-        "oneOf": [
+        "allOf": [
             {
-                "properties": {"class": {"const": "FFF"}},
-                "$ref": "fff_material_container.schema.json",
+                "if": {"properties": {"class": {"const": "FFF"}}},
+                "then": {"$ref": "fff_material_container.schema.json"},
             },
             {
-                "properties": {"class": {"const": "SLA"}},
-                "$ref": "sla_material_container.schema.json",
+                "if": {"properties": {"class": {"const": "SLA"}}},
+                "then": {"$ref": "sla_material_container.schema.json"},
             },
         ],
     },
