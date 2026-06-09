@@ -62,22 +62,30 @@
     "name"
   ],
   "unevaluatedProperties": false,
-  "oneOf": [
+  "allOf": [
     {
-      "properties": {
-        "class": {
-          "const": "FFF"
+      "if": {
+        "properties": {
+          "class": {
+            "const": "FFF"
+          }
         }
       },
-      "$ref": "fff_material_container.schema.json"
+      "then": {
+        "$ref": "fff_material_container.schema.json"
+      }
     },
     {
-      "properties": {
-        "class": {
-          "const": "SLA"
+      "if": {
+        "properties": {
+          "class": {
+            "const": "SLA"
+          }
         }
       },
-      "$ref": "sla_material_container.schema.json"
+      "then": {
+        "$ref": "sla_material_container.schema.json"
+      }
     }
   ]
 }
