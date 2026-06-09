@@ -99,11 +99,14 @@ def entity_schema(
 
         return False
 
+    all_field_names = set()
     for field in yaml["fields"]:
         if not field.get(filter_field, True):
             continue
 
         field_name = field["name"]
+        all_field_names.add(field_name)
+
         if is_field_excluded(field_name):
             continue
 
@@ -139,7 +142,6 @@ def entity_schema(
         if include_inherits:
             result = recursive_merge(result, type_schema(parent, []))
 
-    all_field_names = set(result["properties"].keys())
     assert len(fields_blacklist - all_field_names) == 0, f"{yaml['name']}: Nonexistent field blacklisted: {fields_blacklist - all_field_names}"
     assert (fields_whitelist is None) or len(fields_whitelist - all_field_names) == 0, f"{yaml['name']}: Nonexistent field whitelisted: {fields_whitelist - all_field_names}"
 
