@@ -19,14 +19,5 @@
       "description": "Hardness of the material on the Shore D scale"
     }
   },
-  "required": [],
-  "unevaluatedProperties": false,
-  "anyOf": [
-    {
-      "$ref": "fff_material_properties.schema.json"
-    },
-    {
-      "$ref": "sla_material_properties.schema.json"
-    }
-  ]
+  "required": []
 }

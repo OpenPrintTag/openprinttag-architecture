@@ -97,28 +97,35 @@ register_type_schema("MaterialProperties", object_ref_schema("material_propertie
 register_type_schema("MaterialColor", object_ref_schema("material_color"))
 register_type_schema("set(MaterialColor)", array_schema(type_schema("MaterialColor", None)))
 
-generate_schema_file("material", add_slug_property(entity_schema(entity_yaml(materials_yaml, "Material"))))
+generate_schema_file(
+    "material",
+    add_slug_property(entity_schema(entity_yaml(materials_yaml, "Material"))),
+    {
+        "allOf": [
+            {
+                "if": {"properties": {"class": {"const": "FFF"}}},
+                "then": {"properties": {"properties": {"$ref": "fff_material_properties.schema.json"}}},
+            },
+            {
+                "if": {"properties": {"class": {"const": "SLA"}}},
+                "then": {"properties": {"properties": {"$ref": "sla_material_properties.schema.json"}}},
+            },
+        ],
+    },
+)
 generate_schema_file("material_type", entity_schema(entity_yaml(materials_yaml, "MaterialType")))
 
 generate_schema_file(
     "fff_material_properties",
-    entity_schema(entity_yaml(materials_yaml, "FFFMaterialProperties"), include_inherits=False),
+    entity_schema(entity_yaml(materials_yaml, "FFFMaterialProperties"), include_inherits=True),
 )
 generate_schema_file(
     "sla_material_properties",
-    entity_schema(entity_yaml(materials_yaml, "SLAMaterialProperties"), include_inherits=False),
+    entity_schema(entity_yaml(materials_yaml, "SLAMaterialProperties"), include_inherits=True),
 )
 
-generate_schema_file(
-    "material_properties",
-    entity_schema(entity_yaml(materials_yaml, "MaterialProperties")),
-    {
-        "anyOf": [
-            {"$ref": "fff_material_properties.schema.json"},
-            {"$ref": "sla_material_properties.schema.json"},
-        ],
-    },
-)
+
+generate_schema_file("material_properties", entity_schema(entity_yaml(materials_yaml, "MaterialProperties"), include_inherits=False))
 
 brands_yaml = read_yaml("brands")
 
