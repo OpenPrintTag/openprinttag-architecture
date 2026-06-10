@@ -75,7 +75,7 @@ register_type_schema("list(Country)", array_schema(type_schema("Country", None))
 register_type_schema("Brand", object_ref_or_link_schema("brand"))
 register_type_schema("Material", object_ref_or_link_schema("material"))
 register_type_schema("MaterialClass", material_class_schema)
-register_type_schema("MaterialType", enum_schema(read_yaml("material_types"), name_item="abbreviation"))
+register_type_schema("FFFMaterialType", enum_schema(read_yaml("fff_material_types"), name_item="abbreviation"))
 register_type_schema("MaterialContainer", object_ref_or_link_schema("material_container"))
 register_type_schema(
     "SLAMaterialContainerConnector",
@@ -93,6 +93,7 @@ register_type_schema(
     array_schema(enum_schema(read_yaml("material_certifications"))),
 )
 register_type_schema("MaterialProperties", object_ref_schema("material_properties"))
+register_type_schema("FFFMaterialProperties", object_ref_schema("fff_material_properties"))
 
 register_type_schema("MaterialColor", object_ref_schema("material_color"))
 register_type_schema("set(MaterialColor)", array_schema(type_schema("MaterialColor", None)))
@@ -104,7 +105,10 @@ generate_schema_file(
         "allOf": [
             {
                 "if": {"properties": {"class": {"const": "FFF"}}},
-                "then": {"properties": {"properties": {"$ref": "fff_material_properties.schema.json"}}},
+                "then": {
+                    "$ref": "fff_material.schema.json",
+                    "properties": {"properties": {"$ref": "fff_material_properties.schema.json"}},
+                },
             },
             {
                 "if": {"properties": {"class": {"const": "SLA"}}},
@@ -113,7 +117,11 @@ generate_schema_file(
         ],
     },
 )
-generate_schema_file("material_type", entity_schema(entity_yaml(materials_yaml, "MaterialType")))
+generate_schema_file(
+    "fff_material",
+    entity_schema(entity_yaml(materials_yaml, "FFFMaterial"), include_inherits=False),
+)
+generate_schema_file("material_type", entity_schema(entity_yaml(materials_yaml, "FFFMaterialType")))
 
 generate_schema_file(
     "fff_material_properties",
