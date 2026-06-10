@@ -279,7 +279,7 @@ def gen_material_tag_table():
 
 env.globals["material_tag_table"] = gen_material_tag_table
 
-env.globals["material_type_columns"] = [
+env.globals["fff_material_type_columns"] = [
     tables.Column(field="key", title="ID"),
     tables.Column(field="abbreviation", title="Abbr.", transform=lambda x: f"`{x}`"),
     tables.Column(field="name", title="Name"),

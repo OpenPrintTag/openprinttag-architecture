@@ -3,10 +3,12 @@
 ## Entity diagram
 {{ plantuml("materials.plantuml") }}
 
-## MaterialType
-See [Material types](/material_types)
-
 {{ class_documentation("materials.yaml", "Material") }}
+
+## FFFMaterialType
+See [FFF material types](/fff_material_types)
+
+{{ class_documentation("materials.yaml", "FFFMaterial") }}
 
 {{ class_documentation("materials.yaml", "MaterialColor") }}
 

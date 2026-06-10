@@ -1,38 +1,4 @@
 objects:
-- name: MaterialType
-  enum_file: material_types.yaml
-  description:
-  - Entity grouping Materials based on the same core chemical compound.
-  - 'For example: PLA, PETG; PETG-CF would still be considered of the PETG MaterialType'
-  - MaterialType is a tightly controlled enum, all new MaterialTypes HAVE to be added to the Architecture first.
-
-  in_opt_db: true
-  fields:
-  - name: abbreviation
-    primary_key: true
-    type: string
-    example: PETG
-    max_length: 7
-    description:
-    - Short abbreviation of the material type name, no longer than 7 characters.
-    - Used for example in printer footers (to show what material is loaded).
-    - Also possibly used for checking filament type match between gcode and printer.
-    - The (class, abbreviation) pair forms an unique key.
-
-    required_in_opt_db: true
-
-  - name: id
-    type: int
-    description: Unique numerical identifier, alternative to the class+abbreviation pair
-
-  - name: name
-    type: string
-    example: Polyethylene Terephtalate Glycol
-    required_in_opt_db: true
-
-  - name: default_properties
-    type: MaterialProperties
-
 - name: Material
   in_opt_db: true
   in_opt: true
@@ -64,12 +30,6 @@ objects:
     required_in_opt_db: true
     in_slx_workflow_db: false
 
-  - name: type
-    type: MaterialType
-    example: PETG
-    description: Type of the material. Can be null if the Material is not of any MaterialType in the list.
-    in_slx_workflow_db: false
-
   - name: name
     type: string
     example: PETG Carbon Fiber Black
@@ -84,7 +44,7 @@ objects:
     - Short abbreviation of the material type name, no longer than 7 characters.
     - Used for example in printer footers (to show what material is loaded).
     - Also possibly used for checking filament type match between gcode and printer.
-    - Inherited from `MaterialType` if not present.
+    - If the material has a `type` (`FFFMaterialType`), the abbreviation can be inherited from it if not present.
 
     required_in_opt_db: true
 
@@ -145,6 +105,54 @@ objects:
   - name: photos
     type: set(MaterialPhoto)
     description: Photos of the material
+    in_slx_workflow_db: false
+
+- name: FFFMaterialType
+  enum_file: fff_material_types.yaml
+  description:
+  - Entity grouping FFF Materials based on the same core chemical compound.
+  - 'For example: PLA, PETG; PETG-CF would still be considered of the PETG FFFMaterialType'
+  - FFFMaterialType is a tightly controlled enum, all new FFFMaterialTypes HAVE to be added to the Architecture first.
+
+  in_opt_db: true
+  fields:
+  - name: abbreviation
+    primary_key: true
+    type: string
+    example: PETG
+    max_length: 7
+    description:
+    - Short abbreviation of the material type name, no longer than 7 characters.
+    - Used for example in printer footers (to show what material is loaded).
+    - Also possibly used for checking filament type match between gcode and printer.
+    - The (class, abbreviation) pair forms an unique key.
+
+    required_in_opt_db: true
+
+  - name: id
+    type: int
+    description: Unique numerical identifier, alternative to the class+abbreviation pair
+
+  - name: name
+    type: string
+    example: Polyethylene Terephtalate Glycol
+    required_in_opt_db: true
+
+  - name: default_properties
+    type: FFFMaterialProperties
+
+- name: FFFMaterial
+  inherits: Material
+  in_opt_db: true
+  in_opt: true
+  description:
+  - Extension of `Material` for FFF materials (filaments).
+
+  fields:
+  - name: type
+    type: FFFMaterialType
+    example: PETG
+    description: Type of the material. Can be null if the Material is not of any FFFMaterialType in the list.
     in_slx_workflow_db: false
 
 - name: MaterialTag
@@ -233,7 +241,7 @@ objects:
   in_opt: true
   description:
   - Properties for printing the material.
-  - The properties can be defined on multiple levels (`MaterialType`, `Material`), more specific levels override properties of more generic ones.
+  - The properties can be defined on multiple levels (`FFFMaterialType`, `Material`), more specific levels override properties of more generic ones.
   - Different material classes have different property fields, those are split into subtypes of `MaterialProperties`.
 
   fields:

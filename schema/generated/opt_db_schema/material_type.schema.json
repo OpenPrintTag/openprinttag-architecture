@@ -2,7 +2,7 @@
   "$id": "/material_type",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "MaterialType",
+  "title": "FFFMaterialType",
   "properties": {
     "abbreviation": {
       "type": "string",
@@ -19,7 +19,7 @@
       "x-example": "Polyethylene Terephtalate Glycol"
     },
     "default_properties": {
-      "$ref": "material_properties.schema.json"
+      "$ref": "fff_material_properties.schema.json"
     }
   },
   "required": [

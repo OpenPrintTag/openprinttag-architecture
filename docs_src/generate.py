@@ -14,7 +14,7 @@ generate(
         "brands",
         "materials",
         "material_tags",
-        "material_types",
+        "fff_material_types",
         "material_certifications",
         "packaging",
         "uuid",

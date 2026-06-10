@@ -36,56 +36,6 @@
       "x-example": "FFF",
       "description": "FFF/SLA"
     },
-    "type": {
-      "type": "string",
-      "enum": [
-        "PLA",
-        "PETG",
-        "TPU",
-        "ABS",
-        "ASA",
-        "PC",
-        "PCTG",
-        "PP",
-        "PA6",
-        "PA11",
-        "PA12",
-        "PA612",
-        "PA66",
-        "CPE",
-        "TPE",
-        "HIPS",
-        "PHA",
-        "PET",
-        "PEI",
-        "PBT",
-        "PVB",
-        "PVA",
-        "PEKK",
-        "PEEK",
-        "BVOH",
-        "TPC",
-        "PPS",
-        "PPSU",
-        "PVC",
-        "PEBA",
-        "PVDF",
-        "PPA",
-        "PCL",
-        "PES",
-        "PMMA",
-        "POM",
-        "PPE",
-        "PS",
-        "PSU",
-        "TPI",
-        "SBS",
-        "OBC",
-        "EVA"
-      ],
-      "x-example": "PETG",
-      "description": "Type of the material. Can be null if the Material is not of any MaterialType in the list."
-    },
     "name": {
       "type": "string",
       "x-example": "PETG Carbon Fiber Black",
@@ -95,7 +45,7 @@
       "type": "string",
       "maxLength": 7,
       "x-example": "PETGCF",
-      "description": "Short abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nInherited from `MaterialType` if not present."
+      "description": "Short abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nIf the material has a `type` (`FFFMaterialType`), the abbreviation can be inherited from it if not present."
     },
     "url": {
       "type": "string",
@@ -278,6 +228,7 @@
         }
       },
       "then": {
+        "$ref": "fff_material.schema.json",
         "properties": {
           "properties": {
             "$ref": "fff_material_properties.schema.json"
