@@ -74,6 +74,7 @@
     "material",
     "nominal_netto_full_weight"
   ],
+  "x-recommended": [],
   "unevaluatedProperties": false,
   "oneOf": [
     {

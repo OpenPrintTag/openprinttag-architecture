@@ -35,5 +35,6 @@
       "description": "See SLAMaterialContainerConnector"
     }
   },
-  "required": []
+  "required": [],
+  "x-recommended": []
 }

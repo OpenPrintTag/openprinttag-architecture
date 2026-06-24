@@ -201,6 +201,7 @@
           "url",
           "type"
         ],
+        "x-recommended": [],
         "unevaluatedProperties": false
       },
       "description": "Photos of the material"
@@ -217,6 +218,7 @@
     "name",
     "abbreviation"
   ],
+  "x-recommended": [],
   "unevaluatedProperties": false,
   "allOf": [
     {

@@ -55,5 +55,6 @@
       "description": "Type of the material. Can be null if the Material is not of any FFFMaterialType in the list."
     }
   },
-  "required": []
+  "required": [],
+  "x-recommended": []
 }

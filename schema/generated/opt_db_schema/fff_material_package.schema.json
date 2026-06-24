@@ -22,5 +22,6 @@
   },
   "required": [
     "filament_diameter"
-  ]
+  ],
+  "x-recommended": []
 }
