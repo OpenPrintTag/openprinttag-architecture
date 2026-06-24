@@ -97,6 +97,7 @@
     "min_bed_temperature",
     "max_bed_temperature"
   ],
+  "x-recommended": [],
   "unevaluatedProperties": false,
   "$ref": "material_properties.schema.json"
 }

@@ -47,5 +47,6 @@
   "required": [
     "color_rgba"
   ],
+  "x-recommended": [],
   "unevaluatedProperties": false
 }

@@ -37,6 +37,7 @@
     }
   },
   "required": [],
+  "x-recommended": [],
   "unevaluatedProperties": false,
   "$ref": "material_properties.schema.json"
 }

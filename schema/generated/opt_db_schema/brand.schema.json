@@ -83,6 +83,7 @@
           }
         },
         "required": [],
+        "x-recommended": [],
         "unevaluatedProperties": false
       }
     },
@@ -95,5 +96,6 @@
     "uuid",
     "name"
   ],
+  "x-recommended": [],
   "unevaluatedProperties": false
 }

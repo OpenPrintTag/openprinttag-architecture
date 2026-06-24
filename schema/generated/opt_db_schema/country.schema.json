@@ -21,5 +21,6 @@
     }
   },
   "required": [],
+  "x-recommended": [],
   "unevaluatedProperties": false
 }

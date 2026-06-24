@@ -19,5 +19,6 @@
       "description": "Hardness of the material on the Shore D scale"
     }
   },
-  "required": []
+  "required": [],
+  "x-recommended": []
 }

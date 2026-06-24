@@ -81,6 +81,7 @@ def entity_schema(
         "title": yaml["name"],
         "properties": {},
         "required": [],
+        "x-recommended": [],
     }
 
     if include_inherits is not False:
@@ -136,8 +137,12 @@ def entity_schema(
 
         result["properties"][field_name] = data
 
-        if field.get(required_field, False):
-            result["required"].append(field_name)
+        match field.get(required_field, False):
+            case True:
+                result["required"].append(field_name)
+
+            case "recommended":
+                result["x-recommended"].append(field_name)
 
     if parent := yaml.get("inherits", None):
         assert include_inherits is not None, f"Entity {yaml['name']} has a parent, please specify whether to include it or not"
@@ -153,6 +158,7 @@ def entity_schema(
     # Filter out inherited fields as well
     result["properties"] = dict(filter(lambda item: not is_field_excluded(item[0]), result["properties"].items()))
     result["required"] = list(filter(lambda key: not is_field_excluded(key), result["required"]))
+    result["x-recommended"] = list(filter(lambda key: not is_field_excluded(key), result["x-recommended"]))
 
     assert yaml.get(filter_field, False), f"{yaml['name']} is not marked {filter_field}"
 

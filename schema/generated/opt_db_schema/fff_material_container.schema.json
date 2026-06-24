@@ -25,5 +25,6 @@
       "description": "Width of the spool (= height of the cylinder)\nDetermines what spool holders/dryboxes the spool can fit into."
     }
   },
-  "required": []
+  "required": [],
+  "x-recommended": []
 }
