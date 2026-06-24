@@ -270,7 +270,7 @@ objects:
   - name: min_print_temperature
     type: number
     unit: "\xB0C"
-    required_in_opt_db: true
+    required_in_opt_db: recommended
     min: -273
     max: 500
     example: 205
@@ -279,7 +279,7 @@ objects:
   - name: max_print_temperature
     type: number
     unit: "\xB0C"
-    required_in_opt_db: true
+    required_in_opt_db: recommended
     min: -273
     max: 500
     example: 225
@@ -296,7 +296,7 @@ objects:
   - name: min_bed_temperature
     type: number
     unit: "\xB0C"
-    required_in_opt_db: true
+    required_in_opt_db: recommended
     min: -273
     max: 500
     example: 40
@@ -305,7 +305,7 @@ objects:
   - name: max_bed_temperature
     type: number
     unit: "\xB0C"
-    required_in_opt_db: true
+    required_in_opt_db: recommended
     min: -273
     max: 500
     example: 60

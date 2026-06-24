@@ -272,7 +272,6 @@ objects:
     description: Non-signed part of the information, contains tracking data for user convenience.
 
   - name: actual_netto_full_weight
-    required_in_opt_db: true
     type: number
     unit: g
     example: 1012
@@ -286,7 +285,6 @@ objects:
   description: FFF-specific extension of MaterialPackageInstance
   fields:
   - name: actual_full_length
-    required_in_opt_db: true
     type: number
     unit: mm
     example: 351000
