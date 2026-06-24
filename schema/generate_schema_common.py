@@ -105,6 +105,8 @@ def entity_schema(
             continue
 
         field_name = field["name"]
+
+        # Consider excluded fields in all_field_names
         all_field_names.add(field_name)
 
         if is_field_excluded(field_name):
@@ -141,6 +143,9 @@ def entity_schema(
         assert include_inherits is not None, f"Entity {yaml['name']} has a parent, please specify whether to include it or not"
         if include_inherits:
             result = recursive_merge(result, type_schema(parent, []))
+
+    # Also consider field names from parent in all_field_names
+    all_field_names |= result["properties"].keys()
 
     assert len(fields_blacklist - all_field_names) == 0, f"{yaml['name']}: Nonexistent field blacklisted: {fields_blacklist - all_field_names}"
     assert (fields_whitelist is None) or len(fields_whitelist - all_field_names) == 0, f"{yaml['name']}: Nonexistent field whitelisted: {fields_whitelist - all_field_names}"
