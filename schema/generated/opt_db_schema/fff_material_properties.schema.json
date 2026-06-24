@@ -91,13 +91,13 @@
       "description": "Minimum recommended nozzle diameter for printing the material.\nSome materials can contain added particles that would clog the nozzle if the diameter was too small."
     }
   },
-  "required": [
+  "required": [],
+  "x-recommended": [
     "min_print_temperature",
     "max_print_temperature",
     "min_bed_temperature",
     "max_bed_temperature"
   ],
-  "x-recommended": [],
   "unevaluatedProperties": false,
   "$ref": "material_properties.schema.json"
 }
