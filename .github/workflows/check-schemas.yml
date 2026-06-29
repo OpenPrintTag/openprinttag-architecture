@@ -37,3 +37,6 @@ jobs:
 
       - name: Test schemas
         run: python3 schema/tests/test_opt_db_schema.py
+
+      - name: Run unit tests
+        run: PYTHONPATH=. pytest tests/ -v

@@ -1,3 +1,5 @@
 jinja2~=3.1.5
 pyyaml~=6.0.2
 jsonschema~=4.25.1
+pytest>=8.0
+mcp>=1.2.0
