@@ -14,7 +14,8 @@ UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` ha
 | UID | Derviation formula | Namespace (`N`) |
 | --- | --- | --- |
 | `Brand::uuid` | `N + Brand::name` | `5269dfb7-1559-440a-85be-aba5f3eff2d2` |
-| `Material::uuid` | `N + Brand:uuid + Material::name` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
+| `Material::uuid` | `N + Brand::uuid + Material::name` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
+| `MaterialContainer::uuid` | `N + Brand::uuid + MaterialContainer::name` | `1b2624e1-4e98-4fcb-a69e-e3188b01df84` |
 | `MaterialPackage::uuid` | `N + Brand::uuid + MaterialPackage::gtin` | `6f7d485e-db8d-4979-904e-a231cd6602b2` |
 | `MaterialPackageInstance::uuid` | `N + (NFC tag UID)` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
 
@@ -34,6 +35,11 @@ material_namespace = "616fc86d-7d99-4953-96c7-46d2836b9be9"
 material_name = "PLA Prusa Galaxy Black"
 material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, material_name.encode("utf-8"))
 print(f"material_uuid = {material_uuid}")
+
+material_container_namespace = "1b2624e1-4e98-4fcb-a69e-e3188b01df84"
+material_container_name = "Prusament 1kg spool"
+material_container_uuid = generate_uuid(material_container_namespace, brand_uuid.bytes, material_container_name.encode("utf-8"))
+print(f"material_container_uuid = {material_container_uuid}")
 
 material_package_namespace = "6f7d485e-db8d-4979-904e-a231cd6602b2"
 gtin = "1234"
