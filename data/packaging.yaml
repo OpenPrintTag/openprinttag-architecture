@@ -1,5 +1,5 @@
 objects:
-- name: MaterialContainer
+- name: Container
   in_opt: true
   in_opt_db: true
   description:
@@ -14,13 +14,6 @@ objects:
     description:
     - Unique identifier of the product.
     - If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid).
-
-  - name: class
-    type: MaterialClass
-    example: FFF
-    description: FFF/SLA
-    required_in_opt_db: true
-    in_slx_workflow_db: false
 
   - name: brand
     type: Brand
@@ -47,6 +40,21 @@ objects:
     description:
     - Weight of the empty container.
     - The aim is to be able to put the container on a scale, subtract this number and be able to estimate the amount of material inside.
+
+- name: MaterialContainer
+  inherits: Container
+  in_opt: true
+  in_opt_db: true
+  description:
+  - Extension of `Container` for containers holding a specific class of material.
+
+  fields:
+  - name: class
+    type: MaterialClass
+    example: FFF
+    description: FFF/SLA
+    required_in_opt_db: true
+    in_slx_workflow_db: false
 
 - name: FFFMaterialContainer
   inherits: MaterialContainer

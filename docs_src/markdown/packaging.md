@@ -3,6 +3,7 @@
 ## Entity diagram
 {{ plantuml("packaging.plantuml") }}
 
+{{ class_documentation("packaging.yaml", "Container") }}
 {{ class_documentation("packaging.yaml", "MaterialContainer") }}
 {{ class_documentation("packaging.yaml", "FFFMaterialContainer") }}
 {{ class_documentation("packaging.yaml", "SLAMaterialContainer") }}

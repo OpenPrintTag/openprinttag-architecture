@@ -172,9 +172,11 @@ generate_schema_file(
     entity_schema(entity_yaml(packaging_yaml, "SLAMaterialPackage"), include_inherits=False),
 )
 
+register_type_schema("Container", entity_schema(entity_yaml(packaging_yaml, "Container")))
+
 generate_schema_file(
     "material_container",
-    add_slug_property(entity_schema(entity_yaml(packaging_yaml, "MaterialContainer"))),
+    add_slug_property(entity_schema(entity_yaml(packaging_yaml, "MaterialContainer"), include_inherits=True)),
     {
         "properties": {
             "class": material_class_schema,
