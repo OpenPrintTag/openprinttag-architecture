@@ -1,0 +1,18 @@
+@startuml
+{{ plantuml_common }}
+
+package Brands {
+	{{ plantuml_entity_ref("brands", "Brand") }}
+}
+
+package Packaging {
+	{{ plantuml_entity_ref("packaging", "Container") }}
+}
+
+{{ plantuml_entity("SLAWashMediumContainer") }}
+
+{{ plantuml_entity("WashMedium") }}
+WashMedium -u- Brand
+WashMedium -r[hidden]- SLAWashMediumContainer
+
+@enduml

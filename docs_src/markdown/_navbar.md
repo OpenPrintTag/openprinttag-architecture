@@ -5,4 +5,5 @@
 - [Material tags](/material_tags)
 - [FFF material types](/fff_material_types)
 - [Material certifications](/material_certifications)
+- [Auxiliary Media](/auxiliary_media)
 - [UUIDs](/uuid)

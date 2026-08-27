@@ -1,0 +1,38 @@
+objects:
+- name: WashMedium
+  in_opt_db: true
+  fields:
+  - name: uuid
+    type: UUID
+    primary_key: true
+    description: Unique identifier of the wash medium.
+
+  - name: brand
+    type: Brand
+
+  - name: name
+    type: string
+    description: Human readable name of the wash medium.
+
+  - name: brand_specific_id
+    type: string
+    description: An identifier the brand uses to indentify this specific wash medium
+
+  - name: density
+    type: number
+    unit: "kg/m\xB3"
+
+  - name: wash_capacity
+    type: number
+    unit: "m\xB2/kg"
+    description: Amount of prints the washing medium can wash before it needs to be replaced, in surface area of the washed models.
+
+- name: SLAWashMediumContainer
+  inherits: Container
+  in_opt_db: true
+  description:
+  - Represents a type/format of a container for SLA wash media.
+  - Currently considers only the Prusa SLX canister. Will be potentially extended if necessary.
+  - Only one container type exists at this moment - the Prusa SLX canister. Its UUID is 20457c12-f923-4d30-a904-7973356137dc.
+
+  fields: []
