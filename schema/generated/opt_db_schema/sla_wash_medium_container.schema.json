@@ -1,0 +1,50 @@
+{
+  "$id": "/sla_wash_medium_container",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "SLAWashMediumContainer",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of the product.\nIf not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
+    },
+    "brand": {
+      "oneOf": [
+        {
+          "$ref": "brand.schema.json"
+        },
+        {
+          "$ref": "slug_reference.schema.json"
+        },
+        {
+          "$ref": "uuid_reference.schema.json"
+        }
+      ],
+      "x-example": "Prusament"
+    },
+    "brand_specific_id": {
+      "type": "string",
+      "description": "Unique identifier of the container within the brand"
+    },
+    "name": {
+      "type": "string"
+    },
+    "volumetric_capacity": {
+      "type": "number",
+      "x-unit": "ml (cm\u00b3)",
+      "description": "Maximum amount of material the container can hold.\nThe volumetric unit has been selected so that the property would work with both SLA and FFF."
+    },
+    "empty_weight": {
+      "type": "number",
+      "x-unit": "g",
+      "description": "Weight of the empty container.\nThe aim is to be able to put the container on a scale, subtract this number and be able to estimate the amount of material inside."
+    }
+  },
+  "required": [
+    "uuid",
+    "name"
+  ],
+  "x-recommended": [],
+  "unevaluatedProperties": false
+}

@@ -17,6 +17,7 @@ generate(
         "fff_material_types",
         "material_certifications",
         "packaging",
+        "auxiliary_media",
         "uuid",
     ],
     project_tag_list={

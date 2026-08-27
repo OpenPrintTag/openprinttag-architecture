@@ -209,3 +209,11 @@ generate_schema_file(
 generate_schema_file("material_color", entity_schema(entity_yaml(materials_yaml, "MaterialColor")))
 
 generate_schema_file("country", entity_schema(entity_yaml(brands_yaml, "Country")))
+
+auxiliary_media_yaml = read_yaml("auxiliary_media")
+
+generate_schema_file("wash_medium", entity_schema(entity_yaml(auxiliary_media_yaml, "WashMedium")))
+generate_schema_file(
+    "sla_wash_medium_container",
+    entity_schema(entity_yaml(auxiliary_media_yaml, "SLAWashMediumContainer"), include_inherits=True),
+)
