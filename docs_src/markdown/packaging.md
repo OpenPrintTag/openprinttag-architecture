@@ -3,19 +3,19 @@
 ## Entity diagram
 {{ plantuml("packaging.plantuml") }}
 
-{{ class_documentation("packaging.yaml", "Container") }}
-{{ class_documentation("packaging.yaml", "MaterialContainer") }}
-{{ class_documentation("packaging.yaml", "FFFMaterialContainer") }}
-{{ class_documentation("packaging.yaml", "SLAMaterialContainer") }}
+{{ class_documentation("Container") }}
+{{ class_documentation("MaterialContainer") }}
+{{ class_documentation("FFFMaterialContainer") }}
+{{ class_documentation("SLAMaterialContainer") }}
 
-{{ class_documentation("packaging.yaml", "SLAMaterialContainerConnector") }}
+{{ class_documentation("SLAMaterialContainerConnector") }}
 
-{{ class_documentation("packaging.yaml", "MaterialPackage") }}
-{{ class_documentation("packaging.yaml", "FFFMaterialPackage") }}
-{{ class_documentation("packaging.yaml", "SLAMaterialPackage") }}
+{{ class_documentation("MaterialPackage") }}
+{{ class_documentation("FFFMaterialPackage") }}
+{{ class_documentation("SLAMaterialPackage") }}
 
-{{ class_documentation("packaging.yaml", "MaterialPackageInstance") }}
-{{ class_documentation("packaging.yaml", "FFFMaterialPackageInstance") }}
+{{ class_documentation("MaterialPackageInstance") }}
+{{ class_documentation("FFFMaterialPackageInstance") }}
 
-{{ class_documentation("packaging.yaml", "MaterialPackageDynamicData") }}
-{{ class_documentation("packaging.yaml", "SLAMaterialPackageDynamicData") }}
+{{ class_documentation("MaterialPackageDynamicData") }}
+{{ class_documentation("SLAMaterialPackageDynamicData") }}

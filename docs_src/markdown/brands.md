@@ -3,11 +3,11 @@
 ## Entity diagram
 {{ plantuml("brands.plantuml") }}
 
-{{ class_documentation("brands.yaml", "Brand") }}
+{{ class_documentation("Brand") }}
 
-{{ class_documentation("brands.yaml", "BrandLinkPattern") }}
+{{ class_documentation("BrandLinkPattern") }}
 
-{{ class_documentation("brands.yaml", "BrandLinkPatternType") }}
+{{ class_documentation("BrandLinkPatternType") }}
 {{ enum_table("brand_link_pattern_types.yaml") }}
 
 ### Examples of patterns and matching
@@ -21,7 +21,7 @@
 	* `object_type`: `MaterialPackage`
 	* (Specific material type not decipherable from the link)
 
-{{ class_documentation("brands.yaml", "Country") }}
+{{ class_documentation("Country") }}
 
 <details>
 <summary><b>Full country list</b></summary>
