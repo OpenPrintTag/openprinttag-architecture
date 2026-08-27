@@ -1,5 +1,5 @@
 # Material tags
-{{ class_documentation("materials.yaml", "MaterialTag") }}
+{{ class_documentation("MaterialTag") }}
 
 ## Rules
 Material tags provide an additional boolean-style parameters to the filament.
@@ -13,7 +13,7 @@ Material tags provide an additional boolean-style parameters to the filament.
 ## Enum members
 {{ material_tag_table() }}
 
-{{ class_documentation("materials.yaml", "MaterialTagCategory") }}
+{{ class_documentation("MaterialTagCategory") }}
 
 ## Enum members
 {{ enum_table("material_tag_categories.yaml", material_tag_category_columns) }}

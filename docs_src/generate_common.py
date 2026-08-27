@@ -41,12 +41,25 @@ env = jinja2.Environment(loader=jinja2.FileSystemLoader(vars.dir))
 jinja_args = {}
 
 
+# Two-pass generation: a first, throwaway "dry run" pass renders every page so that every entity
+# documented via class_documentation() gets tagged with the page it lives on (see "documentation_page"
+# below); a second, real pass then has that mapping available to resolve cross-page inheritance links,
+# regardless of which order pages happen to be generated in.
+_dry_run = False
+current_page = None
+
 # PlantUML support
 current_plantuml = None
 
 
 def gen_plantuml(source_file):
     global current_plantuml
+
+    # Diagrams don't affect the class_documentation()-derived page mapping, and rendering them
+    # (which shells out to PlantUML/Java) is expensive, so skip them entirely during the dry run.
+    if _dry_run:
+        return ""
+
     rendered_uml_file = f"{vars.out_dir}/{source_file}"
 
     with open(rendered_uml_file, "w") as f:
@@ -83,6 +96,8 @@ for file in pathlib.Path(vars.data_dir).glob("*.yaml"):
     key = str(file)
     if isinstance(data, dict):
         entity_yamls[key] = data
+        for item in data["objects"]:
+            item["source_yaml_file"] = file.name
 
     elif isinstance(data, list):
         enum_yamls[key] = {"items": data}
@@ -98,6 +113,33 @@ def get_entity_yaml(yaml_file, class_name):
     return item
 
 
+def find_entity_yaml(class_name):
+    matches = [item for data in entity_yamls.values() for item in data["objects"] if item["name"] == class_name]
+
+    assert len(matches) > 0, f"Could not find entity {class_name} in any data file"
+    assert len(matches) == 1, f"Entity {class_name} is defined in more than one data file, class names must be globally unique"
+
+    return matches[0]
+
+
+def _slugify(class_name):
+    return class_name.lower()
+
+
+def _inheritance_chain_links(item):
+    links = []
+    current = item
+
+    while (parent_name := current.get("inherits", None)) is not None:
+        current = find_entity_yaml(parent_name)
+        page = current.get("documentation_page")
+        assert page is not None, f"Class {parent_name} has no documented page (missing class_documentation call?)"
+
+        links.append(f"[{parent_name}](/{page}?id={_slugify(parent_name)})")
+
+    return links
+
+
 def gen_plantuml_entity_ref(yaml_file, class_name):
     item = get_entity_yaml(yaml_file, class_name)
 
@@ -109,7 +151,7 @@ def gen_plantuml_entity_ref(yaml_file, class_name):
 env.globals["plantuml_entity_ref"] = gen_plantuml_entity_ref
 
 
-def gen_plantuml_entity(class_name, custom_inheritance=False):
+def gen_plantuml_entity(class_name, custom_inheritance=None):
     yaml_file = os.path.splitext(os.path.basename(current_plantuml))[0]
     item = get_entity_yaml(yaml_file, class_name)
 
@@ -138,8 +180,12 @@ def gen_plantuml_entity(class_name, custom_inheritance=False):
 
     result += "}\n"
 
-    if not custom_inheritance and (parent := item.get("inherits", None)):
-        result += f"{class_name} -u-|> {parent}"
+    # True -> custom arrow
+    # String -> provided arrow
+    # None -> default arrow
+    if custom_inheritance is not True and (parent := item.get("inherits", None)):
+        arrow = custom_inheritance if custom_inheritance is not None else "-u-|>"
+        result += f"{class_name} {arrow} {parent}"
 
     return result
 
@@ -171,13 +217,23 @@ class_columns = [
 ]
 
 
-def gen_class_documentation(yaml_file, class_name):
-    item = get_entity_yaml(yaml_file, class_name)
+def gen_class_documentation(class_name):
+    item = find_entity_yaml(class_name)
+
+    # The dry run only exists to find out which page each class ends up documented on
+    # (see the module-level comment above current_page), so nothing else is needed here.
+    if _dry_run:
+        item["documentation_page"] = current_page
+        return ""
 
     assert "documentation_generated" not in item, f"Double class_documentation call for {class_name}"
     item["documentation_generated"] = True
 
     result = f"# {class_name}\n"
+
+    chain = _inheritance_chain_links(item)
+    if len(chain):
+        result += f"**Inherits from:** {' → '.join(chain)}\n\n"
 
     projects = ", ".join(data.stereotype for key, data in _project_tag_list.items() if item.get(key, False))
     if len(projects):
@@ -187,6 +243,7 @@ def gen_class_documentation(yaml_file, class_name):
         result += tables.default_transform(item["description"])
         result += "\n\n"
 
+    yaml_file = item["source_yaml_file"]
     result += tables.generate_table(item["fields"], class_columns)
     result += f"*The documentation was automatically generated from [`{yaml_file}`]({vars.repo}/blob/main/data/{yaml_file})*\n\n"
 
@@ -204,6 +261,10 @@ enum_columns = [
 
 def gen_enum_table(yaml_file, columns=enum_columns):
     data = enum_yamls[os.path.join(vars.data_dir, yaml_file)]
+
+    if _dry_run:
+        return ""
+
     assert "table_generated" not in data
     data["table_generated"] = True
 
@@ -332,9 +393,17 @@ env.globals["repo"] = vars.repo
 
 
 # Generate documentation files
-def gen_doc_file(source_file):
-    with open(f"{vars.out_dir}/{source_file}.md", "w") as f:
-        f.write(env.get_template(f"markdown/{source_file}.md").render(jinja_args))
+def gen_doc_file(source_file, dry_run):
+    global current_page, _dry_run
+    current_page = source_file
+    _dry_run = dry_run
+    rendered = env.get_template(f"markdown/{source_file}.md").render(jinja_args)
+    current_page = None
+    _dry_run = False
+
+    if not dry_run:
+        with open(f"{vars.out_dir}/{source_file}.md", "w") as f:
+            f.write(rendered)
 
 
 def generate(files: list[str], project_tag_list: dict[str, ProjectTag]):
@@ -344,8 +413,13 @@ def generate(files: list[str], project_tag_list: dict[str, ProjectTag]):
     # Uses project_tag_list
     env.globals["plantuml_common"] = env.get_template("plantuml/_common.plantuml").render(jinja_args)
 
+    # First, throwaway pass: find out which page every class ends up documented on (see gen_class_documentation).
     for file in files:
-        gen_doc_file(file)
+        gen_doc_file(file, dry_run=True)
+
+    # Second, real pass: render the actual output, now with inheritance links resolvable.
+    for file in files:
+        gen_doc_file(file, dry_run=False)
 
     for enum, data in enum_yamls.items():
         assert data.get("table_generated", False), f"Enum {os.path.basename(enum)} does not have any corresponding enum_table call"
