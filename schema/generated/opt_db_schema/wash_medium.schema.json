@@ -38,6 +38,10 @@
       "type": "number",
       "x-unit": "m\u00b2/kg",
       "description": "Amount of prints the washing medium can wash before it needs to be replaced, in surface area of the washed models."
+    },
+    "slug": {
+      "type": "string",
+      "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename."
     }
   },
   "required": [],
