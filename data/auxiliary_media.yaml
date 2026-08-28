@@ -20,11 +20,11 @@ objects:
 
   - name: density
     type: number
-    unit: "kg/m\xB3"
+    unit: "g/cm\xB3 (1 g/cm\xB3 = 0.001 g/mm\xB3 = 1000 kg/m\xB3)"
 
   - name: wash_capacity
     type: number
-    unit: "m\xB2/kg"
+    unit: "cm\xB2/g"
     description: Amount of prints the washing medium can wash before it needs to be replaced, in surface area of the washed models.
 
 - name: SLAWashMediumContainer
