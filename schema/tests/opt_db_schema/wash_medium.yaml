@@ -4,5 +4,5 @@ brand:
   slug: elegoo
 name: Water-Based Cleaning Fluid
 brand_specific_id: EWCF-1
-density: 990
-wash_capacity: 0.5
+density: 0.990
+wash_capacity: 5
