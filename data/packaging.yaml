@@ -270,11 +270,6 @@ objects:
   - name: expiration_date
     type: timestamp
 
-  - name: signature
-    type: Signature
-    description:
-    - Information about material package instance can be signed for genuinity verification.
-
   - name: dynamic_data
     type: MaterialPackageDynamicData
     description: Non-signed part of the information, contains tracking data for user convenience.

@@ -274,5 +274,3 @@ timestamp_schema = {
     "description": "Unix timestamp (seconds since epoch, UTC)",
 }
 register_type_schema("timestamp", timestamp_schema)
-
-register_type_schema("Signature", string_schema)
