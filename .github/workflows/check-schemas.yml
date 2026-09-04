@@ -37,3 +37,6 @@ jobs:
 
       - name: Test schemas
         run: python3 schema/tests/test_opt_db_schema.py
+
+      - name: Test default properties
+        run: python3 schema/tests/test_fff_material_default_properties.py
