@@ -165,7 +165,7 @@ def gen_plantuml_entity(class_name, custom_inheritance=None):
     yaml_file = os.path.splitext(os.path.basename(current_plantuml))[0]
     item = get_entity_yaml(yaml_file, class_name)
 
-    assert "plantuml_entity_generated" not in data, f"Double plantuml_entity call for {class_name}"
+    assert "plantuml_entity_generated" not in item, f"Double plantuml_entity call for {class_name}"
     item["plantuml_entity_generated"] = True
 
     result = gen_plantuml_entity_ref(yaml_file, class_name)
