@@ -60,8 +60,7 @@ objects:
     type: MaterialClass
     example: FFF
     description: FFF/SLA
-    required:
-      opt_db_schema: true
+    required: true
 
 - name: FFFMaterialContainer
   inherits: MaterialContainer
@@ -174,6 +173,7 @@ objects:
     type: MaterialClass
     example: FFF
     description: FFF/SLA
+    required: true
 
   - name: brand_specific_id
     type: string
@@ -265,6 +265,7 @@ objects:
     type: MaterialClass
     example: FFF
     description: FFF/SLA
+    required: true
 
   - name: package
     type: MaterialPackage
@@ -337,6 +338,7 @@ objects:
     type: MaterialClass
     example: FFF
     description: FFF/SLA
+    required: true
 
   - name: consumed_weight
     type: number

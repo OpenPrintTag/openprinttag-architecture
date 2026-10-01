@@ -9,14 +9,18 @@ package Packaging {
     {{ plantuml_entity_ref("packaging", "MaterialPackage") }}
 }
 
+'The rectangle group is there to keep the entities tightly together - layout hack
+rectangle " " <<invisible>> {
 {{ plantuml_entity("MaterialProperties") }}
+{{ plantuml_entity("FFFMaterialProperties", true) }}
+FFFMaterialProperties -l-|> MaterialProperties
 
-{{ plantuml_entity("FFFMaterialProperties") }}
-
-{{ plantuml_entity("SLAMaterialProperties") }}
+{{ plantuml_entity("SLAMaterialProperties", true) }}
+SLAMaterialProperties -l-|> MaterialProperties
+}
 
 {{ plantuml_entity("FFFMaterialType") }}
-FFFMaterialType -r- FFFMaterialProperties
+FFFMaterialType -d-- FFFMaterialProperties
 
 {{ plantuml_entity("MaterialTagCategory") }}
 
@@ -29,17 +33,21 @@ MaterialTag -d- MaterialTagCategory
 
 {{ plantuml_entity("Material") }}
 Material -u-- Brand
-Material -r- MaterialProperties
-Material -- MaterialTag
-Material -- MaterialCertification
-Material -- MaterialPhoto
+Material -- MaterialProperties
+Material --- MaterialTag
+Material --- MaterialCertification
+Material --- MaterialPhoto
 
 Material .u.. MaterialPackage
 
-{{ plantuml_entity("FFFMaterial") }}
+{{ plantuml_entity("FFFMaterial", true) }}
+FFFMaterial -l-|> Material
 FFFMaterial -u- FFFMaterialType
 
 {{ plantuml_entity("MaterialColor") }}
 MaterialColor .r. Material
+
+{{ plantuml_entity("MaterialClass") }}
+MaterialClass -d- Material
 
 @enduml

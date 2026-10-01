@@ -1,0 +1,19 @@
+- key: 0
+  name: FFF
+  description: Fused Filament Fabrication - Filament
+  properties: FFFMaterialProperties
+  type: FFFMaterial
+  container: FFFMaterialContainer
+  package: FFFMaterialPackage
+  package_instance: FFFMaterialPackageInstance
+  package_instance_dynamic_data: null
+
+- key: 1
+  name: SLA
+  description: Stereolithography Apparatus - Resin
+  properties: SLAMaterialProperties
+  type: null # Doesn't need a subclass yet
+  container: SLAMaterialContainer
+  package: SLAMaterialPackage
+  package_instance: null
+  package_instance_dynamic_data: SLAMaterialPackageDynamicData

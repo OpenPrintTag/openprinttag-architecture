@@ -3,6 +3,9 @@
 ## Entity diagram
 {{ plantuml("materials.plantuml") }}
 
+{{ class_documentation("MaterialClass") }}
+{{ enum_table("material_classes.yaml") }}
+
 {{ class_documentation("Material") }}
 
 ## FFFMaterialType

@@ -31,9 +31,7 @@ objects:
   - name: class
     type: MaterialClass
     example: FFF
-    description: FFF/SLA
-    required:
-      opt_db_schema: true
+    required: true
 
   - name: name
     type: string
@@ -462,6 +460,14 @@ objects:
     type: string
     description: User-friendly name of the certification
 
+- name: MaterialClass
+  enum_file: material_classes.yaml
+  description: Used primarily for distinguishing filaments from SLA resins.
+  used_in:
+    opt_spec: true
+    opt_db_schema: true
+
+  fields: []
 - name: MaterialColor
   used_in:
     opt_db_schema: true
