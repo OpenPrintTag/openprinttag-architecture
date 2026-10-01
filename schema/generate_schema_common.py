@@ -1,8 +1,10 @@
-import shutil
-import os
-import yaml
 import copy
 import json
+import os
+import shutil
+from collections.abc import Callable
+
+import yaml
 
 dir = os.path.abspath(os.path.dirname(__file__) + "/../")
 data_dir = f"{dir}/data"
@@ -55,8 +57,16 @@ def type_schema(type, field_yaml):
 uuid_schema = {"type": "string", "format": "uuid"}
 
 
-def object_ref_schema(object_schema_file):
-    return {"$ref": f"{object_schema_file}.schema.json"}
+def object_ref_schema(ref, entity_name: str | None = None, *, is_filename: bool = True):
+    if is_filename:
+        ref += ".schema.json"
+
+    result = {"$ref": ref}
+
+    if entity_name:
+        result["title"] = entity_name
+
+    return result
 
 
 def read_yaml(yaml_file):
@@ -68,11 +78,16 @@ def entity_yaml(source_yaml, class_name):
     return next((item for item in source_yaml["objects"] if item["name"] == class_name))
 
 
-def enum_schema(yaml, name_item="name"):
-    return {
+def enum_schema(yaml, name_item="name", entity_name: str | None = None):
+    result = {
         "type": "string",
         "enum": [item[name_item] for item in yaml if not item.get("deprecated", False)],
     }
+
+    if entity_name:
+        result["title"] = entity_name
+
+    return result
 
 
 def array_schema(entity_schema):
@@ -87,6 +102,9 @@ def entity_schema(
     include_inherits: bool | None = None,
     fields_whitelist: set[str] | None = None,
     fields_blacklist: set[str] = set(),
+    schema_func: Callable = type_schema,
+    schema_name: str | None = None,
+    allow_unevaluated_properties: bool | None = None,
 ):
     result = {
         "type": "object",
@@ -96,7 +114,12 @@ def entity_schema(
         "x-recommended": [],
     }
 
-    if include_inherits is not False:
+    if schema_name is None:
+        schema_name = _schema_name
+
+    if allow_unevaluated_properties is not None:
+        result["unevaluatedProperties"] = allow_unevaluated_properties
+    elif include_inherits is not False:
         result["unevaluatedProperties"] = False
 
     def is_field_excluded(field_name):
@@ -107,7 +130,7 @@ def entity_schema(
         if (fields_whitelist is not None) and (field_name not in fields_whitelist):
             return True
 
-        if field_name in fields_blacklist:
+        if field_name in fields_blacklist:  # noqa: SIM103
             return True
 
         return False
@@ -115,7 +138,7 @@ def entity_schema(
     all_field_names = set()
     for field in yaml["fields"]:
         # Fields used_in is opt-out
-        if not resolve_target_specific_field(field.get("used_in"), True, schema_name=_schema_name):
+        if not resolve_target_specific_field(field.get("used_in"), True, schema_name=schema_name):
             continue
 
         field_name = field["name"]
@@ -126,7 +149,7 @@ def entity_schema(
         if is_field_excluded(field_name):
             continue
 
-        data = copy.deepcopy(type_schema(field["type"], field))
+        data = copy.deepcopy(schema_func(field["type"], field))
         desc = ""
 
         if unit := field.get("unit"):
@@ -150,7 +173,7 @@ def entity_schema(
 
         result["properties"][field_name] = data
 
-        match resolve_target_specific_field(field.get("required"), False, schema_name=_schema_name):
+        match resolve_target_specific_field(field.get("required"), False, schema_name=schema_name):
             case True:
                 result["required"].append(field_name)
 
@@ -160,7 +183,7 @@ def entity_schema(
     if parent := yaml.get("inherits", None):
         assert include_inherits is not None, f"Entity {yaml['name']} has a parent, please specify whether to include it or not"
         if include_inherits:
-            result = recursive_merge(result, type_schema(parent, []))
+            result = recursive_merge(result, schema_func(parent, []))
 
     # Also consider field names from parent in all_field_names
     all_field_names |= result["properties"].keys()
@@ -174,7 +197,7 @@ def entity_schema(
     result["x-recommended"] = list(filter(lambda key: not is_field_excluded(key), result["x-recommended"]))
 
     # Entity used_in is opt-in
-    assert resolve_target_specific_field(yaml.get("used_in"), False, schema_name=_schema_name), f"{yaml['name']} is missing used_in: {_schema_name}"
+    assert resolve_target_specific_field(yaml.get("used_in"), False, schema_name=schema_name), f"{yaml['name']} is missing used_in: {schema_name}"
 
     return result
 
