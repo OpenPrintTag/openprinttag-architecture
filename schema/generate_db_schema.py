@@ -1,45 +1,39 @@
-from generate_schema_common import (
-    array_schema,
-    entity_schema,
-    entity_yaml,
-    enum_schema,
-    generate_schema_file,
-    object_ref_schema,
-    read_yaml,
-    register_type_schema,
-    setup,
-    type_schema,
+from material_schema_generator import MaterialSchemaGenerator
+from schema_generator import SchemaGenerator
+
+g = SchemaGenerator(
+    out_dir="opt_db_schema",
 )
 
-setup("opt_db_schema")
-
-
-def object_ref_or_link_schema(object_schema_file: str):
-    return {
-        "oneOf": [
-            object_ref_schema(object_schema_file),
-            object_ref_schema("slug_reference"),
-            object_ref_schema("uuid_reference"),
-        ]
-    }
-
-
-def add_slug_property(schema: dict):
-    schema["properties"]["slug"] = {
-        "type": "string",
-        "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename.",
-    }
-    return schema
-
-
-material_class_schema = {
-    "type": "string",
-    "enum": ["FFF", "SLA"],
+slug_extension = {
+    "properties": {
+        "slug": {
+            "type": "string",
+            "description": "Identifier within the material database directory structure. Has to correspond with entity yaml the filename.",
+        },
+    },
 }
 
-materials_yaml = read_yaml("materials")
+mg = MaterialSchemaGenerator(g, root_entity_extension=slug_extension)
 
-generate_schema_file(
+g.add_source_file("brands.yaml")
+g.add_source_file("materials.yaml")
+g.add_source_file("packaging.yaml")
+g.add_source_file("auxiliary_media.yaml")
+
+
+def object_ref_or_link(entity_name: str, object_schema_filename: str):
+    return {
+        "title": entity_name,
+        "oneOf": [
+            g.object_ref(None, object_schema_filename),
+            g.object_ref(None, "slug_reference"),
+            g.object_ref(None, "uuid_reference"),
+        ],
+    }
+
+
+g.export_file(
     "uuid_reference",
     {
         "type": "object",
@@ -54,7 +48,8 @@ generate_schema_file(
         "unevaluatedProperties": False,
     },
 )
-generate_schema_file(
+
+g.export_file(
     "slug_reference",
     {
         "type": "object",
@@ -69,151 +64,26 @@ generate_schema_file(
     },
 )
 
-register_type_schema("Country", {"type": "string", "minLength": 2, "maxLength": 2})
-register_type_schema("list(Country)", array_schema(type_schema("Country", None)))
+g.add_known_type_schema(object_ref_or_link("Brand", "brand"))
+g.add_known_type_schema(object_ref_or_link("Material", "material"))
+g.add_known_type_schema(object_ref_or_link("MaterialContainer", "material_container"))
+g.add_known_type_schema(object_ref_or_link("SLAMaterialContainerConnector", "sla_material_container_connector"))
+g.add_known_type_schema(g.entity("Container"))
 
-register_type_schema("Brand", object_ref_or_link_schema("brand"))
-register_type_schema("Material", object_ref_or_link_schema("material"))
-register_type_schema("MaterialClass", material_class_schema)
-register_type_schema("FFFMaterialType", enum_schema(read_yaml("fff_material_types"), name_item="abbreviation"))
-register_type_schema("MaterialContainer", object_ref_or_link_schema("material_container"))
-register_type_schema(
-    "SLAMaterialContainerConnector",
-    object_ref_or_link_schema("sla_material_container_connector"),
-)
+mg.add_small_country()
+g.export_file("country", g.entity("Country"))
 
-register_type_schema("set(MaterialTag)", array_schema(enum_schema(read_yaml("material_tags"))))
-register_type_schema("MaterialPhotoType", enum_schema(read_yaml("material_photo_types")))
-register_type_schema(
-    "set(MaterialPhoto)",
-    array_schema(entity_schema(entity_yaml(materials_yaml, "MaterialPhoto"))),
-)
-register_type_schema(
-    "set(MaterialCertification)",
-    array_schema(enum_schema(read_yaml("material_certifications"))),
-)
-register_type_schema("MaterialProperties", object_ref_schema("material_properties"))
-register_type_schema("FFFMaterialProperties", object_ref_schema("fff_material_properties"))
+g.add_known_type_schema(g.enum("BrandLinkPatternType", "brand_link_pattern_types.yaml", key_field="name"))
+g.add_known_type_schema(g.entity("BrandLinkPattern"))
 
-register_type_schema("MaterialColor", object_ref_schema("material_color"))
-register_type_schema("set(MaterialColor)", array_schema(type_schema("MaterialColor", None)))
+g.add_known_type_schema(g.enum("MaterialPhotoType", "material_photo_types.yaml", key_field="name"))
+g.add_known_type_schema(g.entity("MaterialPhoto"))
 
-generate_schema_file(
-    "material",
-    add_slug_property(entity_schema(entity_yaml(materials_yaml, "Material"))),
-    {
-        "allOf": [
-            {
-                "if": {"properties": {"class": {"const": "FFF"}}},
-                "then": {
-                    "$ref": "fff_material.schema.json",
-                    "properties": {"properties": {"$ref": "fff_material_properties.schema.json"}},
-                },
-            },
-            {
-                "if": {"properties": {"class": {"const": "SLA"}}},
-                "then": {"properties": {"properties": {"$ref": "sla_material_properties.schema.json"}}},
-            },
-        ],
-    },
-)
-generate_schema_file(
-    "fff_material",
-    entity_schema(entity_yaml(materials_yaml, "FFFMaterial"), include_inherits=False),
-)
-generate_schema_file("material_type", entity_schema(entity_yaml(materials_yaml, "FFFMaterialType")))
+mg.export_brand()
+mg.export_material()
+mg.export_package()
 
-generate_schema_file(
-    "fff_material_properties",
-    entity_schema(entity_yaml(materials_yaml, "FFFMaterialProperties"), include_inherits=True),
-)
-generate_schema_file(
-    "sla_material_properties",
-    entity_schema(entity_yaml(materials_yaml, "SLAMaterialProperties"), include_inherits=True),
-)
+g.export_file("sla_material_container_connector", g.entity("SLAMaterialContainerConnector"))
 
-
-generate_schema_file("material_properties", entity_schema(entity_yaml(materials_yaml, "MaterialProperties"), include_inherits=False))
-
-brands_yaml = read_yaml("brands")
-
-register_type_schema("BrandLinkPatternType", enum_schema(read_yaml("brand_link_pattern_types")))
-register_type_schema(
-    "set(BrandLinkPattern)",
-    array_schema(entity_schema(entity_yaml(brands_yaml, "BrandLinkPattern"))),
-)
-
-generate_schema_file("brand", add_slug_property(entity_schema(entity_yaml(brands_yaml, "Brand"))))
-
-packaging_yaml = read_yaml("packaging")
-
-generate_schema_file(
-    "material_package",
-    add_slug_property(entity_schema(entity_yaml(packaging_yaml, "MaterialPackage"))),
-    {
-        "oneOf": [
-            {
-                "properties": {"class": {"const": "FFF"}},
-                "$ref": "fff_material_package.schema.json",
-            },
-            {
-                "properties": {"class": {"const": "SLA"}},
-                "$ref": "sla_material_package.schema.json",
-            },
-        ],
-    },
-)
-generate_schema_file(
-    "fff_material_package",
-    entity_schema(entity_yaml(packaging_yaml, "FFFMaterialPackage"), include_inherits=False),
-)
-generate_schema_file(
-    "sla_material_package",
-    entity_schema(entity_yaml(packaging_yaml, "SLAMaterialPackage"), include_inherits=False),
-)
-
-register_type_schema("Container", entity_schema(entity_yaml(packaging_yaml, "Container")))
-
-generate_schema_file(
-    "material_container",
-    add_slug_property(entity_schema(entity_yaml(packaging_yaml, "MaterialContainer"), include_inherits=True)),
-    {
-        "properties": {
-            "class": material_class_schema,
-        },
-        "allOf": [
-            {
-                "if": {"properties": {"class": {"const": "FFF"}}},
-                "then": {"$ref": "fff_material_container.schema.json"},
-            },
-            {
-                "if": {"properties": {"class": {"const": "SLA"}}},
-                "then": {"$ref": "sla_material_container.schema.json"},
-            },
-        ],
-    },
-)
-generate_schema_file(
-    "fff_material_container",
-    entity_schema(entity_yaml(packaging_yaml, "FFFMaterialContainer"), include_inherits=False),
-)
-generate_schema_file(
-    "sla_material_container",
-    entity_schema(entity_yaml(packaging_yaml, "SLAMaterialContainer"), include_inherits=False),
-)
-generate_schema_file(
-    "sla_material_container_connector",
-    entity_schema(entity_yaml(packaging_yaml, "SLAMaterialContainerConnector")),
-)
-
-generate_schema_file("material_color", entity_schema(entity_yaml(materials_yaml, "MaterialColor")))
-
-generate_schema_file("country", entity_schema(entity_yaml(brands_yaml, "Country")))
-
-auxiliary_media_yaml = read_yaml("auxiliary_media")
-
-generate_schema_file("wash_medium", add_slug_property(entity_schema(entity_yaml(auxiliary_media_yaml, "WashMedium"))))
-generate_schema_file(
-    "sla_wash_medium_container",
-    entity_schema(entity_yaml(auxiliary_media_yaml, "SLAWashMediumContainer"), include_inherits=True),
-)
+g.export_file("wash_medium", g.recursive_merge(g.entity("WashMedium"), slug_extension))
+g.export_file("sla_wash_medium_container", g.entity("SLAWashMediumContainer", include_inherits=True))
