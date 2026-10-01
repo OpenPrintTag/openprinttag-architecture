@@ -10,6 +10,7 @@
       "description": "Unique identifier of the wash medium."
     },
     "brand": {
+      "title": "Brand",
       "oneOf": [
         {
           "$ref": "brand.schema.json"

@@ -16,6 +16,8 @@
     "countries_of_origin": {
       "type": "array",
       "items": {
+        "title": "Country",
+        "description": "Two-letter country code, according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)",
         "type": "string",
         "minLength": 2,
         "maxLength": 2
@@ -53,6 +55,7 @@
         "title": "BrandLinkPattern",
         "properties": {
           "brand": {
+            "title": "Brand",
             "oneOf": [
               {
                 "$ref": "brand.schema.json"
@@ -73,6 +76,7 @@
               "material_package",
               "material_package_instance"
             ],
+            "title": "BrandLinkPatternType",
             "x-example": "`material`",
             "description": "Type of object the link is referring to"
           },

@@ -10,6 +10,7 @@
       "description": "Unique identifier of the product.\nIf not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
     },
     "brand": {
+      "title": "Brand",
       "oneOf": [
         {
           "$ref": "brand.schema.json"

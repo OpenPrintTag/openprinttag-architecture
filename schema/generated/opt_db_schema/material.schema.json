@@ -10,6 +10,7 @@
       "description": "If not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
     },
     "brand": {
+      "title": "Brand",
       "oneOf": [
         {
           "$ref": "brand.schema.json"
@@ -28,13 +29,8 @@
       "description": "An identifier the brand uses to indentify this specific material"
     },
     "class": {
-      "type": "string",
-      "enum": [
-        "FFF",
-        "SLA"
-      ],
-      "x-example": "FFF",
-      "description": "FFF/SLA"
+      "$ref": "material_class.schema.json",
+      "title": "MaterialClass"
     },
     "name": {
       "type": "string",
@@ -52,100 +48,25 @@
       "x-example": "https://prusament.com/materials/pla/",
       "description": "URL of the info/product page of the material (not material package!)\nIf not specified explicitly, can be also derived using `Brand::material_url_template`"
     },
-    "properties": {
-      "$ref": "material_properties.schema.json"
-    },
+    "properties": {},
     "primary_color": {
       "$ref": "material_color.schema.json",
+      "title": "MaterialColor",
       "description": "Primary color of the material, if it has ones.\nIf the material contains multiple colours of same importance (for example coextruded or rainbow filaments), it makes sense to leave this field null and work only with secondary colors.\nImportant! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value"
     },
     "secondary_colors": {
       "type": "array",
       "items": {
-        "$ref": "material_color.schema.json"
+        "$ref": "material_color.schema.json",
+        "title": "MaterialColor"
       },
       "description": "Additonal colors of the material to the primary colors.\nThe material doesn't have to have a primary colos, in which case all the colors are on the same level of importance as secondary colors.\nSome systems (for example printers) can only work with primary colors and ignore this field.\nImportant! In most schemas, the `MaterialColor` entity is replaced by a plain RGBA value"
     },
     "tags": {
       "type": "array",
       "items": {
-        "type": "string",
-        "enum": [
-          "filtration_recommended",
-          "biocompatible",
-          "home_compostable",
-          "industrially_compostable",
-          "bio_based",
-          "antibacterial",
-          "air_filtering",
-          "abrasive",
-          "foaming",
-          "castable",
-          "self_extinguishing",
-          "paramagnetic",
-          "radiation_shielding",
-          "high_temperature",
-          "high_speed",
-          "uv_resistant",
-          "esd_safe",
-          "conductive",
-          "emi_shielding",
-          "blend",
-          "water_soluble",
-          "ipa_soluble",
-          "limonene_soluble",
-          "acetone_soluble",
-          "low_outgassing",
-          "matte",
-          "silk",
-          "translucent",
-          "transparent",
-          "without_pigments",
-          "iridescent",
-          "pearlescent",
-          "glitter",
-          "glow_in_the_dark",
-          "neon",
-          "illuminescent_color_change",
-          "temperature_color_change",
-          "gradual_color_change",
-          "coextruded",
-          "contains_carbon",
-          "contains_carbon_fiber",
-          "contains_carbon_nano_tubes",
-          "contains_graphene",
-          "contains_glass",
-          "contains_glass_fiber",
-          "contains_kevlar",
-          "contains_ptfe",
-          "contains_stone",
-          "contains_magnetite",
-          "contains_organic_material",
-          "contains_cork",
-          "contains_wax",
-          "contains_wood",
-          "contains_algae",
-          "contains_bamboo",
-          "contains_pine",
-          "contains_ceramic",
-          "contains_boron_carbide",
-          "contains_metal",
-          "contains_bronze",
-          "contains_iron",
-          "contains_steel",
-          "contains_silver",
-          "contains_copper",
-          "contains_aluminium",
-          "contains_brass",
-          "contains_tungsten",
-          "imitates_wood",
-          "imitates_metal",
-          "imitates_marble",
-          "imitates_stone",
-          "lithophane",
-          "recycled",
-          "limited_edition"
-        ]
+        "$ref": "material_tag.schema.json",
+        "title": "MaterialTag"
       },
       "x-example": "glitter, carbon_fiber"
     },
@@ -167,12 +88,8 @@
     "certifications": {
       "type": "array",
       "items": {
-        "type": "string",
-        "enum": [
-          "ul_2818",
-          "ul_94_v0",
-          "ul_2904"
-        ]
+        "$ref": "material_certification.schema.json",
+        "title": "MaterialCertification"
       },
       "description": "List of certifications the material has obtained"
     },
@@ -195,6 +112,7 @@
               "package",
               "filament_colors_sample"
             ],
+            "title": "MaterialPhotoType",
             "x-example": "`print`",
             "description": "Information about what actually is on the photo"
           }
@@ -229,15 +147,73 @@
           "class": {
             "const": "FFF"
           }
-        }
+        },
+        "required": [
+          "class"
+        ]
       },
       "then": {
-        "$ref": "fff_material.schema.json",
+        "type": "object",
+        "title": "FFFMaterial",
         "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "PLA",
+              "PETG",
+              "TPU",
+              "ABS",
+              "ASA",
+              "PC",
+              "PCTG",
+              "PP",
+              "PA6",
+              "PA11",
+              "PA12",
+              "PA612",
+              "PA66",
+              "CPE",
+              "TPE",
+              "HIPS",
+              "PHA",
+              "PET",
+              "PEI",
+              "PBT",
+              "PVB",
+              "PVA",
+              "PEKK",
+              "PEEK",
+              "BVOH",
+              "TPC",
+              "PPS",
+              "PPSU",
+              "PVC",
+              "PEBA",
+              "PVDF",
+              "PPA",
+              "PCL",
+              "PES",
+              "PMMA",
+              "POM",
+              "PPE",
+              "PS",
+              "PSU",
+              "TPI",
+              "SBS",
+              "OBC",
+              "EVA"
+            ],
+            "title": "FFFMaterialType",
+            "x-example": "PETG",
+            "description": "Type of the material. Can be null if the Material is not of any FFFMaterialType in the list."
+          },
           "properties": {
-            "$ref": "fff_material_properties.schema.json"
+            "$ref": "fff_material_properties.schema.json",
+            "title": "FFFMaterialProperties"
           }
-        }
+        },
+        "required": [],
+        "x-recommended": []
       }
     },
     {
@@ -246,12 +222,16 @@
           "class": {
             "const": "SLA"
           }
-        }
+        },
+        "required": [
+          "class"
+        ]
       },
       "then": {
         "properties": {
           "properties": {
-            "$ref": "sla_material_properties.schema.json"
+            "$ref": "sla_material_properties.schema.json",
+            "title": "SLAMaterialProperties"
           }
         }
       }

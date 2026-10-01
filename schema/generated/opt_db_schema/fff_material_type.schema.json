@@ -1,5 +1,5 @@
 {
-  "$id": "/material_type",
+  "$id": "/fff_material_type",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "title": "FFFMaterialType",
@@ -19,7 +19,8 @@
       "x-example": "Polyethylene Terephtalate Glycol"
     },
     "default_properties": {
-      "$ref": "fff_material_properties.schema.json"
+      "$ref": "fff_material_properties.schema.json",
+      "title": "FFFMaterialProperties"
     }
   },
   "required": [

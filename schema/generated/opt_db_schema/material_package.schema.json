@@ -10,12 +10,8 @@
       "description": "Unique identifier of the product.\nIf not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
     },
     "class": {
-      "type": "string",
-      "enum": [
-        "FFF",
-        "SLA"
-      ],
-      "x-example": "FFF",
+      "$ref": "material_class.schema.json",
+      "title": "MaterialClass",
       "description": "FFF/SLA"
     },
     "brand_specific_id": {
@@ -27,6 +23,7 @@
       "description": "[Global Trade Item Number](https://en.wikipedia.org/wiki/Global_Trade_Item_Number) of the product - typically a 'barcode' product ID\nThis is a more general ID than covers EAN, ISBN and other."
     },
     "container": {
+      "title": "MaterialContainer",
       "oneOf": [
         {
           "$ref": "material_container.schema.json"
@@ -41,6 +38,7 @@
       "x-example": "Prusament 1kg spool"
     },
     "material": {
+      "title": "Material",
       "oneOf": [
         {
           "$ref": "material.schema.json"
@@ -71,27 +69,68 @@
     }
   },
   "required": [
+    "class",
     "material",
     "nominal_netto_full_weight"
   ],
   "x-recommended": [],
   "unevaluatedProperties": false,
-  "oneOf": [
+  "allOf": [
     {
-      "properties": {
-        "class": {
-          "const": "FFF"
-        }
+      "if": {
+        "properties": {
+          "class": {
+            "const": "FFF"
+          }
+        },
+        "required": [
+          "class"
+        ]
       },
-      "$ref": "fff_material_package.schema.json"
+      "then": {
+        "type": "object",
+        "title": "FFFMaterialPackage",
+        "properties": {
+          "filament_diameter": {
+            "type": "number",
+            "x-unit": "\u00b5m",
+            "x-example": 1750
+          },
+          "filament_diameter_tolerance": {
+            "type": "number",
+            "x-unit": "\u00b5m"
+          },
+          "nominal_full_length": {
+            "type": "number",
+            "x-unit": "mm",
+            "x-example": 350000,
+            "description": "Nominal/advertised filament length of the full spool.\nThe actual length of a specific package instance can slightly differ and is specified by `MaterialPackageInstance::actual_full_length`"
+          }
+        },
+        "required": [
+          "filament_diameter"
+        ],
+        "x-recommended": []
+      }
     },
     {
-      "properties": {
-        "class": {
-          "const": "SLA"
-        }
+      "if": {
+        "properties": {
+          "class": {
+            "const": "SLA"
+          }
+        },
+        "required": [
+          "class"
+        ]
       },
-      "$ref": "sla_material_package.schema.json"
+      "then": {
+        "type": "object",
+        "title": "SLAMaterialPackage",
+        "properties": {},
+        "required": [],
+        "x-recommended": []
+      }
     }
   ]
 }

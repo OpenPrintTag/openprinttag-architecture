@@ -1,0 +1,11 @@
+{
+  "$id": "/material_certification",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "string",
+  "enum": [
+    "ul_2818",
+    "ul_94_v0",
+    "ul_2904"
+  ],
+  "title": "MaterialCertification"
+}

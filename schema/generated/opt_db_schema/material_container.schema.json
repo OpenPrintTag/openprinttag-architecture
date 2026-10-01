@@ -5,14 +5,8 @@
   "title": "MaterialContainer",
   "properties": {
     "class": {
-      "type": "string",
-      "enum": [
-        "FFF",
-        "SLA",
-        "FFF",
-        "SLA"
-      ],
-      "x-example": "FFF",
+      "$ref": "material_class.schema.json",
+      "title": "MaterialClass",
       "description": "FFF/SLA"
     },
     "uuid": {
@@ -21,6 +15,7 @@
       "description": "Unique identifier of the product.\nIf not provided by the manufacturer, the UUID can be derived as specified in [the UUID section](/uuid)."
     },
     "brand": {
+      "title": "Brand",
       "oneOf": [
         {
           "$ref": "brand.schema.json"
@@ -70,10 +65,38 @@
           "class": {
             "const": "FFF"
           }
-        }
+        },
+        "required": [
+          "class"
+        ]
       },
       "then": {
-        "$ref": "fff_material_container.schema.json"
+        "type": "object",
+        "title": "FFFMaterialContainer",
+        "properties": {
+          "hole_diameter": {
+            "type": "number",
+            "x-unit": "mm",
+            "description": "Diameter of the hole in the middle of the spool.\nDetermines the maximum diameter of the spool holder rod."
+          },
+          "inner_diameter": {
+            "type": "number",
+            "x-unit": "mm",
+            "description": "Inner diameter of the spool = minimum radius the fiament is rolled"
+          },
+          "outer_diameter": {
+            "type": "number",
+            "x-unit": "mm",
+            "description": "Outer diameter of the spool.\nDetermines what spool holders/dryboxes the spool can fit into."
+          },
+          "width": {
+            "type": "number",
+            "x-unit": "mm",
+            "description": "Width of the spool (= height of the cylinder)\nDetermines what spool holders/dryboxes the spool can fit into."
+          }
+        },
+        "required": [],
+        "x-recommended": []
       }
     },
     {
@@ -82,10 +105,49 @@
           "class": {
             "const": "SLA"
           }
-        }
+        },
+        "required": [
+          "class"
+        ]
       },
       "then": {
-        "$ref": "sla_material_container.schema.json"
+        "type": "object",
+        "title": "SLAMaterialContainer",
+        "properties": {
+          "width": {
+            "type": "number",
+            "x-unit": "mm",
+            "description": "(Maximum) size of the container in one of the horizontal dimensions"
+          },
+          "length": {
+            "type": "number",
+            "x-unit": "mm",
+            "description": "(Maximum) size of the container in the other horizontal dimension"
+          },
+          "height": {
+            "type": "number",
+            "x-unit": "mm",
+            "description": "(Maximum) size of the container in the vertical dimension."
+          },
+          "connector": {
+            "title": "SLAMaterialContainerConnector",
+            "oneOf": [
+              {
+                "$ref": "sla_material_container_connector.schema.json"
+              },
+              {
+                "$ref": "slug_reference.schema.json"
+              },
+              {
+                "$ref": "uuid_reference.schema.json"
+              }
+            ],
+            "x-example": "20mm thread",
+            "description": "See SLAMaterialContainerConnector"
+          }
+        },
+        "required": [],
+        "x-recommended": []
       }
     }
   ]

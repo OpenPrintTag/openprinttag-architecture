@@ -34,10 +34,23 @@
       "minimum": 0,
       "x-unit": "mPa\u00b7s",
       "description": "Viscosity of the material at 60 \u00b0C"
+    },
+    "density": {
+      "type": "number",
+      "minimum": 0.01,
+      "maximum": 100,
+      "x-unit": "g/cm\u00b3 (1 g/cm\u00b3 = 0.001 g/mm\u00b3 = 1000 kg/m\u00b3)"
+    },
+    "hardness_shore_a": {
+      "type": "number",
+      "description": "Hardness of the material on the Shore A scale"
+    },
+    "hardness_shore_d": {
+      "type": "number",
+      "description": "Hardness of the material on the Shore D scale"
     }
   },
   "required": [],
   "x-recommended": [],
-  "unevaluatedProperties": false,
-  "$ref": "material_properties.schema.json"
+  "unevaluatedProperties": false
 }
