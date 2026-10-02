@@ -109,6 +109,9 @@ objects:
   - name: photos
     type: set(MaterialPhoto)
     description: Photos of the material
+    used_in:
+      default: false
+      opt_db_schema: true
 
 - name: FFFMaterialType
   enum_file: fff_material_types.yaml
