@@ -128,6 +128,9 @@ objects:
     type: SLAMaterialContainerConnector
     example: 20mm thread
     description: See SLAMaterialContainerConnector
+    used_in:
+      default: false
+      opt_db_schema: true
 
 - name: SLAMaterialContainerConnector
   used_in:
@@ -301,6 +304,9 @@ objects:
   - name: dynamic_data
     type: MaterialPackageDynamicData
     description: Non-signed part of the information, contains tracking data for user convenience.
+    used_in:
+      default: false
+      opt_spec: true
 
   - name: actual_netto_full_weight
     type: number

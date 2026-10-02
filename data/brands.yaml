@@ -29,10 +29,17 @@ objects:
     description:
     - List of all countries where the brand has manufacturing facilities.
 
+    used_in:
+      default: false
+      opt_db_schema: true
+
   - name: keywords
     type: set(string)
     example: Prusa, Prusa3D
     description: Additional strings the brand can be matched against during searches.
+    used_in:
+      default: false
+      opt_db_schema: true
 
   - name: material_url_template
     type: string
@@ -41,12 +48,20 @@ objects:
     - '`{id}` gets replaced by Material::brand_specific_id'
     - '`{uuid}` gets replaced by Material::uuid'
 
+    used_in:
+      default: false
+      opt_db_schema: true
+
   - name: material_package_url_template
     type: string
     example: https://www.prusa3d.com/cs/produkt/{id}/
     description:
     - '`{id}` gets replaced by MaterialPackage::brand_specific_id'
     - '`{uuid}` gets replaced by MaterialPackage::uuid'
+
+    used_in:
+      default: false
+      opt_db_schema: true
 
   - name: material_package_instance_url_template
     type: string
@@ -55,8 +70,15 @@ objects:
     - '`{id}` gets replaced by MaterialPackageInstance::brand_specific_id'
     - '`{uuid}` gets replaced by MaterialPackageInstance::uuid'
 
+    used_in:
+      default: false
+      opt_db_schema: true
+
   - name: link_patterns
     type: set(BrandLinkPattern)
+    used_in:
+      default: false
+      opt_db_schema: true
 
 - name: BrandLinkPatternType
   enum_file: brand_link_pattern_types.yaml
