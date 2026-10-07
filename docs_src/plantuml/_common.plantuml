@@ -4,3 +4,9 @@ skinparam ClassBackgroundColor<<DB>> LightCyan
 
 skinparam ClassBorderColor<<OPT>> DarkGreen
 skinparam ClassBorderThickness<<OPT>> 2
+
+skinparam rectangle<<invisible>> {
+  BorderColor transparent
+  BackgroundColor transparent
+  FontColor transparent
+}
