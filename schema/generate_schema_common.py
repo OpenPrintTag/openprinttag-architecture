@@ -117,10 +117,8 @@ def entity_schema(
     if schema_name is None:
         schema_name = _schema_name
 
-    if allow_unevaluated_properties is not None:
-        result["unevaluatedProperties"] = allow_unevaluated_properties
-    elif include_inherits is not False:
-        result["unevaluatedProperties"] = False
+    if allow_unevaluated_properties is None:
+        allow_unevaluated_properties = include_inherits is False
 
     def is_field_excluded(field_name):
         if "(" in field_name:
@@ -150,26 +148,28 @@ def entity_schema(
             continue
 
         data = copy.deepcopy(schema_func(field["type"], field))
-        desc = ""
 
-        if unit := field.get("unit"):
-            data["x-unit"] = unit
+        # data can also be a mere "False" to disable the field
+        if isinstance(data, dict):
+            if unit := field.get("unit"):
+                data["x-unit"] = unit
 
-        # Do not copy over examples for references, they do not make sense (for example Brand UUID example "Prusament")
-        if (example := field.get("example")) and (data.get("format") != "uuid") and ("$ref" not in data):
-            data["x-example"] = example
+            # Do not copy over examples for references, they do not make sense (for example Brand UUID example "Prusament")
+            if (example := field.get("example")) and (data.get("format") != "uuid") and ("$ref" not in data):
+                data["x-example"] = example
 
-        if "description" in field:
-            desc_val = field["description"]
-            if isinstance(desc_val, list):
-                desc_val = "\n".join(desc_val)
+            desc = ""
+            if "description" in field:
+                desc_val = field["description"]
+                if isinstance(desc_val, list):
+                    desc_val = "\n".join(desc_val)
 
-            desc += "\n"
-            desc += desc_val
+                desc += "\n"
+                desc += desc_val
 
-        desc = desc.strip()
-        if len(desc):
-            data["description"] = desc
+            desc = desc.strip()
+            if len(desc):
+                data["description"] = desc
 
         result["properties"][field_name] = data
 
@@ -184,6 +184,11 @@ def entity_schema(
         assert include_inherits is not None, f"Entity {yaml['name']} has a parent, please specify whether to include it or not"
         if include_inherits:
             result = recursive_merge(result, schema_func(parent, []))
+
+    if allow_unevaluated_properties:
+        result.pop("unevaluatedProperties", None)
+    else:
+        result["unevaluatedProperties"] = False
 
     # Also consider field names from parent in all_field_names
     all_field_names |= result["properties"].keys()

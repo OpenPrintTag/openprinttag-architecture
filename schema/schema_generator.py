@@ -48,6 +48,7 @@ class SchemaGenerator:
             "timestamp": lambda args: old.timestamp_schema,
             "color_rgba": lambda args: old.color_rgba_schema,
             "color_lab": lambda args: old.color_lab_schema,
+            "object": lambda args: {"type": "object"},
         }
 
     def add_source_file(self, file: Path):
@@ -63,14 +64,16 @@ class SchemaGenerator:
             assert entity_name not in self._entity_yamls
             self._entity_yamls[entity_name] = entity_yaml
 
-    def add_known_type_schema(self, schema: Schema):
-        type_name = schema["title"]
+    def add_known_type_schema(self, schema: Schema, *, type_name: str | None = None, override: bool = False):
+        if type_name is None:
+            type_name = schema["title"]
+
         assert len(type_name) > 0
-        assert type_name not in self._known_type_schemas
+        assert (type_name in self._known_type_schemas) == override
         self._known_type_schemas[type_name] = schema
 
-    def known_type_schema(self, type_name: str) -> Schema | None:
-        return self._known_type_schemas.get(type_name, None)
+    def known_type_schema(self, type_name: str, *, fallback=None) -> Schema | None:
+        return self._known_type_schemas.get(type_name, fallback)
 
     def export_file(self, basename: str, schema: Schema):
         result = {
@@ -111,17 +114,20 @@ class SchemaGenerator:
                 return r
 
             elif (r := self._known_type_schemas.get(type_name)) is not None:
-                if isinstance(r, Schema):
-                    return r
-                else:
+                if callable(r):
                     return r(
                         SchemaGeneratorArgs(
                             field_yaml=field_yaml,
                         )
                     )
+                else:
+                    return r
 
             elif (m := re.fullmatch(r"(set|list)\((.+)\)", type_name)) is not None:
                 return old.array_schema(_schema_func(m.group(2), field_yaml))
+
+            elif (m := re.fullmatch(r"(nullable)\((.+)\)", type_name)) is not None:
+                return self.schema_or_null(type_name, _schema_func(m.group(2), field_yaml))
 
             else:
                 raise Exception(f'Unknown type "{type_name}"')
@@ -151,3 +157,16 @@ class SchemaGenerator:
 
     def object_ref(self, entity_name: str | None, ref: str, *, is_filename: bool = True):
         return old.object_ref_schema(ref, entity_name=entity_name, is_filename=is_filename)
+
+    def schema_or_null(self, title: str, schema: Schema, *, null_description: str = ""):
+        # A bit awkward formulation, but oneOf would give indecipherable errors
+        return {
+            "title": title,
+            "if": {
+                "not": {
+                    "description": null_description,
+                    "type": "null",
+                },
+            },
+            "then": schema,
+        }

@@ -164,3 +164,30 @@ class MaterialSchemaGenerator:
                 },
             ),
         )
+
+    def install_standard_pack(self):
+        g = self._g
+
+        g.add_source_file("packaging.yaml")
+
+        g.add_known_type_schema(g.object_ref("Brand", "brand"))
+        g.add_known_type_schema(g.object_ref("Material", "material"))
+        g.add_known_type_schema(g.object_ref("MaterialContainer", "material_container"))
+        g.add_known_type_schema(g.object_ref("MaterialPackage", "material_package"))
+        g.add_known_type_schema(g.object_ref("MaterialPackageInstance", "material_package_instance"))
+
+        g.export_file(
+            "container",
+            g.entity(
+                "Container",
+                # MaterialContainer inherits from Container
+                allow_unevaluated_properties=True,
+            ),
+        )
+        g.add_known_type_schema(g.object_ref("Container", "container"))
+
+        self.add_small_country()
+        self.export_brand()
+        self.export_material()
+        self.export_package()
+        self.export_package_instance()
