@@ -85,9 +85,9 @@
     },
     "min_nozzle_diameter": {
       "type": "number",
-      "minimum": 200,
-      "maximum": 2000,
-      "x-unit": "\u00b5m",
+      "minimum": 0.01,
+      "maximum": 100,
+      "x-unit": "mm",
       "description": "Minimum recommended nozzle diameter for printing the material.\nSome materials can contain added particles that would clog the nozzle if the diameter was too small."
     },
     "density": {

@@ -39,7 +39,10 @@ objects:
     required:
       opt_db_schema: true
 
-    description: Name of the material itself, without the brand name
+    description:
+    - Name of the material itself, without the brand name
+    - Can also be called "full name"
+
   - name: abbreviation
     type: string
     example: PETGCF
@@ -49,6 +52,7 @@ objects:
     - Used for example in printer footers (to show what material is loaded).
     - Also possibly used for checking filament type match between gcode and printer.
     - If the material has a `type` (`FFFMaterialType`), the abbreviation can be inherited from it if not present.
+    - Can also be called "short name"
 
     required:
       opt_db_schema: true
@@ -393,9 +397,9 @@ objects:
 
   - name: min_nozzle_diameter
     type: number
-    unit: "\xB5m"
-    min: 200
-    max: 2000
+    unit: mm
+    min: 0.01
+    max: 100
     description:
     - Minimum recommended nozzle diameter for printing the material.
     - Some materials can contain added particles that would clog the nozzle if the diameter was too small.
