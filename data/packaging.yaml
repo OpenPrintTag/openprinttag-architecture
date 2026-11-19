@@ -227,14 +227,18 @@ objects:
   fields:
   - name: filament_diameter
     type: number
-    unit: "\xB5m"
-    example: 1750
+    unit: mm
+    example: 1.75
+    min: 0.1
+    max: 1000
     required:
       opt_db_schema: true
 
   - name: filament_diameter_tolerance
     type: number
-    unit: "\xB5m"
+    unit: mm
+    min: 0
+    max: 15
 
   - name: nominal_full_length
     type: number
