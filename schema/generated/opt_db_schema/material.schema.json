@@ -35,13 +35,13 @@
     "name": {
       "type": "string",
       "x-example": "PETG Carbon Fiber Black",
-      "description": "Name of the material itself, without the brand name"
+      "description": "Name of the material itself, without the brand name\nCan also be called \"full name\""
     },
     "abbreviation": {
       "type": "string",
       "maxLength": 7,
       "x-example": "PETGCF",
-      "description": "Short abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nIf the material has a `type` (`FFFMaterialType`), the abbreviation can be inherited from it if not present."
+      "description": "Short abbreviation of the material type name, no longer than 7 characters.\nUsed for example in printer footers (to show what material is loaded).\nAlso possibly used for checking filament type match between gcode and printer.\nIf the material has a `type` (`FFFMaterialType`), the abbreviation can be inherited from it if not present.\nCan also be called \"short name\""
     },
     "url": {
       "type": "string",
