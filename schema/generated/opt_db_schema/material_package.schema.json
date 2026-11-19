@@ -93,12 +93,16 @@
         "properties": {
           "filament_diameter": {
             "type": "number",
-            "x-unit": "\u00b5m",
-            "x-example": 1750
+            "minimum": 0.1,
+            "maximum": 1000,
+            "x-unit": "mm",
+            "x-example": 1.75
           },
           "filament_diameter_tolerance": {
             "type": "number",
-            "x-unit": "\u00b5m"
+            "minimum": 0,
+            "maximum": 15,
+            "x-unit": "mm"
           },
           "nominal_full_length": {
             "type": "number",

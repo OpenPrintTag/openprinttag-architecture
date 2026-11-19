@@ -397,9 +397,9 @@ objects:
 
   - name: min_nozzle_diameter
     type: number
-    unit: "\xB5m"
-    min: 200
-    max: 2000
+    unit: mm
+    min: 0.01
+    max: 100
     description:
     - Minimum recommended nozzle diameter for printing the material.
     - Some materials can contain added particles that would clog the nozzle if the diameter was too small.
